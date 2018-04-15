@@ -24,6 +24,9 @@ public class MainScreenController implements Initializable, ControlledScreen {
     @FXML Label selectDialog;
     @FXML Label lblPower;
     @FXML Label lblGodName;
+    @FXML Label lblHealth;
+    @FXML Label lblMana;
+    @FXML Label lblSpeed;
 
     public void initialize(URL url, ResourceBundle rb) {
         InitializeItems();
@@ -84,6 +87,10 @@ public class MainScreenController implements Initializable, ControlledScreen {
         selectDialog.setDisable(false);
         selectDialog.setVisible(true);
         lblPower.setVisible(false);
+        lblGodName.setVisible(false);
+        lblHealth.setVisible(false);
+        lblMana.setVisible(false);
+        lblSpeed.setVisible(false);
     }
 
     public void HideImages(){
@@ -95,6 +102,7 @@ public class MainScreenController implements Initializable, ControlledScreen {
 
     public void GodSelected(God g, String img){
         godImgLarge.setImage(new Image(img));
+        lblGodName.setVisible(true);
         lblGodName.setText(g.getName());
         HideImages();
         lblPower.setVisible(true);
@@ -105,6 +113,15 @@ public class MainScreenController implements Initializable, ControlledScreen {
         else{
             lblPower.setText("Magical power: " + g.getPower());
         }
+
+        lblHealth.setVisible(true);
+        lblHealth.setText("Health: " + String.valueOf(g.getHealth()));
+
+        lblMana.setVisible(true);
+        lblMana.setText("Mana: " + String.valueOf(g.getMana()));
+
+        lblSpeed.setVisible(true);
+        lblSpeed.setText("Speed: " + String.valueOf(g.getMS()));
     }
 
     public void HoverExited(){

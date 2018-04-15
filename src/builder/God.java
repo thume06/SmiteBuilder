@@ -10,9 +10,12 @@ public class God {
     public God(String n, String d){
         damageType = d;
         name = n;
+        level = 1;
     } //Constructor for a god that sets damage type (P or M) and name.
+    //TODO Add other default values to constructor to reduce amount of settters required.
 
     //Other variables for gods. These are set by setters rather than constructor.
+    private int level; //God level
     private int baseHealth;
     private double healthScale;
     private int baseMana;
@@ -53,6 +56,10 @@ public class God {
     //--------------------------------------Getters and setters-------------------------------------------------------//
 
     //Begin setters
+    public void setLevel(int l){
+        level = l;
+    }
+
     public void setBaseHealth(int h){
         baseHealth = h;
     }
@@ -126,6 +133,28 @@ public class God {
 
     public double getPower(){
         return power;
+    }
+
+    public double getHealth(){
+        if(level > 1){
+            return baseHealth + (level*healthScale);
+        }
+        else{
+            return baseHealth;
+        }
+    }
+
+    public double getMana(){
+        if(level > 1){
+            return baseHealth + (level*manaScale);
+        }
+        else{
+            return baseMana;
+        }
+    }
+
+    public int getMS(){
+        return baseMS;
     }
 
 }

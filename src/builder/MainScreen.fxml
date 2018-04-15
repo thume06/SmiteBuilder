@@ -39,5 +39,20 @@
             <Font size="15.0" />
          </font>
       </Label>
+      <Label fx:id="lblHealth" layoutX="50.0" layoutY="105.0" text="?Health: ">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMana" layoutX="50.0" layoutY="130.0" text="?Mana: ">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblSpeed" layoutX="50.0" layoutY="155.0" text="?MovementSpeed: ">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
