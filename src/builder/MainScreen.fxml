@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -41,5 +42,10 @@
          </content>
       </ScrollPane>
       <TextField fx:id="searchField" layoutX="14.0" layoutY="36.0" promptText="Search" />
+      <Label fx:id="noneFound" alignment="CENTER" disable="true" layoutY="92.0" opacity="0.0" prefHeight="507.0" prefWidth="914.0" text="Your search does not match any Gods" textAlignment="CENTER">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

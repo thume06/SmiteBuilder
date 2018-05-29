@@ -30,6 +30,7 @@ public class MainScreenController implements Initializable{
     @FXML GridPane godGrid;
     @FXML ScrollPane godScroll;
     @FXML TextField searchField;
+    @FXML Label noneFound;
 
     public void initialize(URL url, ResourceBundle rb) {
         mainClass = Main.getInstance();
@@ -94,6 +95,9 @@ public class MainScreenController implements Initializable{
     private void RefreshGods(){
         //initializes all grids to empty
         godGrid.getChildren().clear();
+
+        //makes the notification label for when no gods are found invisible
+        noneFound.setOpacity(0);
 
         //Gets the number of rows required and adds the scroll bar if needed
         double rows = Math.ceil(tempArray.size()/9.0);
@@ -243,6 +247,17 @@ public class MainScreenController implements Initializable{
             }
             count++;
         }
+        Collections.sort(tempArray, new Comparator<God>() {
+            @Override
+            public int compare(God god, God g1) {
+                String s1 = god.getName();
+                String s2 = g1.getName();
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
         RefreshGods();
+        if(tempArray.size() == 0){
+            noneFound.setOpacity(1);
+        }
     }
 }
