@@ -1,44 +1,45 @@
 package builder;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
-public class MainScreenController implements Initializable, ControlledScreen {
-    //TODO ALL items and gods must be declared on this scope zzzz. Figure out a way to organize and minimize all of these declarations.
+public class MainScreenController implements Initializable{
     Item BookOfThoth = new Item("Book of Thoth");
     Item Transcendance = new Item("Transcendance");
-    God Ra = new God("Ra", "M");
+    private ArrayList<God> tempArray = new ArrayList<>(); //will contain gods after filtering
+    private God[][] godTable = new God[9][11]; //columns first, then rows 0,0 is top left. rows increase down. columns increase to the right.
 
-    private ScreensController myController;
     private Main mainClass;
 
-    @FXML ImageView hoverImg;
-    @FXML ImageView raImg;
-    @FXML ImageView godImgLarge;
-    @FXML Label selectDialog;
-    @FXML Label lblPower;
-    @FXML Label lblGodName;
-    @FXML Label lblHealth;
-    @FXML Label lblMana;
-    @FXML Label lblSpeed;
+    @FXML GridPane godGrid;
+    @FXML ScrollPane godScroll;
+    @FXML TextField searchField;
 
     public void initialize(URL url, ResourceBundle rb) {
+        mainClass = Main.getInstance();
         InitializeItems();
         InitializeGods();
-        InitializeImages();
+        InitializeOther();
+        RefreshGods();
     }
 
-    public void setScreenParent(ScreensController screenParent){
-        myController = screenParent;
-    }
-
-    public void InitializeItems(){
+    private void InitializeItems(){
         //TODO Book of Thoth and Trans are fine for now, lets get other functionality working before adding more items.
         //-----------------------------------------T3 Items------------------------------------------//
         BookOfThoth.setDamageType("M");
@@ -58,85 +59,190 @@ public class MainScreenController implements Initializable, ControlledScreen {
         Transcendance.setStacks(50);
     }
 
-    public void InitializeGods(){
-        Ra.setBaseHealth(385);
-        Ra.setHealthScale(68);
-        Ra.setBaseMana(255);
-        Ra.setManaScale(48);
-        Ra.setBaseMS(360);
-        Ra.setBasicAttackDamage(34);
-        Ra.setBasicAttackScale(1.5);
-        Ra.setAttackSpeed(0.88);
-        Ra.setAttackSpeedScale(.01);
-        Ra.setBasePhysicalDef(10);
-        Ra.setPhysicalDefScale(2.5);
-        Ra.setBaseMagicalDef(30);
-        Ra.setMagicalDefScale(0.9);
+    private void InitializeGods(){
+        //Adds all gods to the temp array to start
+        int count = 0;
+        while(count < mainClass.getGodList().size()){
+            String name = mainClass.getGodList().get(count).getName();
+            String type = mainClass.getGodList().get(count).getType();
+            String pantheon = mainClass.getGodList().get(count).getPantheon();
+            String url = mainClass.getGodList().get(count).getURL();
+            tempArray.add(new God(name, type, pantheon, url));
+            count++;
+        }
+
+        Collections.sort(tempArray, new Comparator<God>() {
+            @Override
+            public int compare(God god, God g1) {
+                String s1 = god.getName();
+                String s2 = g1.getName();
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
     }
 
-    public void InitializeImages(){
-        hoverImg.setImage(new Image("hover.png"));
-        hoverImg.setVisible(false);
-        hoverImg.setDisable(true);
-
-        raImg.setImage(new Image("ra.jpg"));
-
-        //TODO REMOVE BELOW LINES ONCE DONE DESIGNING SCREEN AFTER SELECTING GOD. DOING THIS FOR EACH NEW GOD ADDED WOULD BE A LOT OF WORK
-        raImg.setDisable(false);
-        raImg.setVisible(true);
-        selectDialog.setDisable(false);
-        selectDialog.setVisible(true);
-        lblPower.setVisible(false);
-        lblGodName.setVisible(false);
-        lblHealth.setVisible(false);
-        lblMana.setVisible(false);
-        lblSpeed.setVisible(false);
+    private void InitializeOther(){
+        godScroll.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color:transparent;");
+        godScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        searchField.textProperty().addListener((observable, oldText, newText)->{
+            SearchUpdated(newText);
+        });
     }
 
-    public void HideImages(){
-        raImg.setVisible(false);
-        raImg.setDisable(true);
-        selectDialog.setVisible(false);
-        selectDialog.setDisable(true);
-    }
+    //This method is to be run once tempArray is sorted with all the gods to be displayed in order.
+    //It takes care of drawing the images and adding any events associated with them
+    private void RefreshGods(){
+        //initializes all grids to empty
+        godGrid.getChildren().clear();
 
-    public void GodSelected(God g, String img){
-        godImgLarge.setImage(new Image(img));
-        lblGodName.setVisible(true);
-        lblGodName.setText(g.getName());
-        HideImages();
-        lblPower.setVisible(true);
+        //Gets the number of rows required and adds the scroll bar if needed
+        double rows = Math.ceil(tempArray.size()/9.0);
 
-        if(g.getDamageType().equals("P")){
-            lblPower.setText("Physical power: " + g.getPower());
+        //Event filter consumeScroll is added or removed based on if there are enough rows for the ScrollPane to be scrollable.
+        EventHandler<ScrollEvent> consumeScroll = new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                event.consume();
+            }};
+        if(rows > 5){
+            godScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+            godScroll.removeEventFilter(ScrollEvent.ANY, consumeScroll);
         }
         else{
-            lblPower.setText("Magical power: " + g.getPower());
+            godScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            godScroll.addEventFilter(ScrollEvent.ANY, consumeScroll);
         }
 
-        lblHealth.setVisible(true);
-        lblHealth.setText("Health: " + String.valueOf(g.getHealth()));
+        //Reduces the size of the grid so that scrolling is not longer than the list of gods
+        double height = (rows * 100) + 8;
+        godGrid.setMaxHeight(height);
+        godGrid.setMinHeight(height);
+        godGrid.setPrefHeight(height);
 
-        lblMana.setVisible(true);
-        lblMana.setText("Mana: " + String.valueOf(g.getMana()));
+        int rowCount = 0;
+        while(rowCount < rows){
+            //if on the last row, loop through the rest of the temp array.
+            if(rowCount + 1 == rows){
+                int count = 0;
+                while(count < tempArray.size()){
+                    String name = tempArray.get(count).getName();
+                    String type = tempArray.get(count).getType();
+                    String pantheon = tempArray.get(count).getPantheon();
+                    String url = tempArray.get(count).getURL();
+                    godTable[count][rowCount] = new God(name, type, pantheon, url);
+                    count++;
+                }
+            }
+            //if not on the last row, loop through one row then remove it from the temp array.
+            else{
+                int count = 0;
+                while(count < 9){
+                    String name = tempArray.get(count).getName();
+                    String type = tempArray.get(count).getType();
+                    String pantheon = tempArray.get(count).getPantheon();
+                    String url = tempArray.get(count).getURL();
+                    godTable[count][rowCount] = new God(name, type, pantheon, url);
+                    count++;
+                }
+                count = 0;
+                while(count < 9){
+                    tempArray.remove(0);
+                    count++;
+                }
+            }
+            rowCount++;
+        }
 
-        lblSpeed.setVisible(true);
-        lblSpeed.setText("Speed: " + String.valueOf(g.getMS()));
+        //now loops through the table of image names and adds all images with listeners to the grid pane
+        rowCount = 0;
+        while(rowCount < rows){
+            boolean toBreak = false;
+            int columnCount = 0;
+            while(columnCount < 9){
+                if(godTable[columnCount][rowCount] == null){
+                    toBreak = true;
+                    break;
+                }
+                Label godName = new Label();
+                godName.setText(godTable[columnCount][rowCount].getName());
+                godName.setDisable(true);
+                godName.setOpacity(1);
+                ImageView hover = new ImageView(new Image("hover.png"));
+                hover.setFitWidth(87);
+                hover.setFitHeight(87);
+                hover.setDisable(true);
+                hover.setVisible(false);
+                ImageView godImage = new ImageView(new Image(godTable[columnCount][rowCount].getURL()));
+                God god = godTable[columnCount][rowCount];
+                GridPane.setHalignment(godImage, HPos.CENTER);
+                GridPane.setValignment(godImage, VPos.CENTER);
+                GridPane.setHalignment(hover, HPos.CENTER);
+                GridPane.setValignment(hover, VPos.CENTER);
+                GridPane.setHalignment(godName, HPos.CENTER);
+                GridPane.setValignment(godName, VPos.BOTTOM);
+                godImage.setFitWidth(67);
+                godImage.setFitHeight(67);
+                int column = columnCount;
+                godImage.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        GodSelected(god, god.getURL());
+                    }
+                });
+                godImage.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        godImage.setFitWidth(87);
+                        godImage.setFitHeight(87);
+                        hover.setVisible(true);
+                        godName.setOpacity(0);
+                    }
+                });
+                godImage.addEventFilter(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        godImage.setFitWidth(67);
+                        godImage.setFitHeight(67);
+                        hover.setVisible(false);
+                        godName.setOpacity(1);
+                    }
+                });
+                godGrid.add(godImage, columnCount, rowCount);
+                godGrid.add(hover, columnCount, rowCount);
+                godGrid.add(godName, columnCount, rowCount);
+                columnCount++;
+            }
+            if(toBreak){
+                break;
+            }
+            rowCount++;
+        }
     }
 
-    public void HoverExited(){
-        hoverImg.setVisible(false);
+    private void GodSelected(God g, String img){
+        System.out.println(g.getName() + " selected!");
     }
 
-    //GOD SELECTIONS
-    public void RaSelect(){
-        GodSelected(Ra, "raLarge.jpg");
-    }
-
-    //GOD HOVERS
-    public void RaHovered(){
-        hoverImg.setLayoutX(raImg.getLayoutX());
-        hoverImg.setLayoutY(raImg.getLayoutY());
-        hoverImg.setVisible(true);
+    private void SearchUpdated(String s){
+        tempArray.clear();
+        int columnCount = 0;
+        while(columnCount < 9){
+            int rowCount = 0;
+            while(rowCount < 11){
+                godTable[columnCount][rowCount] = null;
+                rowCount++;
+            }
+            columnCount++;
+        }
+        String search = s.toLowerCase();
+        System.out.println("Searching for gods that contain: " + search);
+        int count = 0;
+        while(count < mainClass.getGodList().size()){
+            if(mainClass.getGodList().get(count).getName().toLowerCase().contains(search)){
+                tempArray.add(mainClass.getGodList().get(count));
+            }
+            count++;
+        }
+        RefreshGods();
     }
 }

@@ -7,12 +7,23 @@ public class God {
 
     private String damageType;
     private String name;
-    public God(String n, String d){
-        damageType = d;
+    private String imageUrl;
+    private String type;
+    private String pantheon;
+    public God(String n, String t, String p, String url){
+        if(t.equals("Warrior") || t.equals("Hunter") || t.equals("Assassin")){
+            damageType = "P";
+        }
+        else{
+            damageType = "M";
+        }
         name = n;
+        type = t;
+        pantheon = p;
+        imageUrl = url;
         level = 1;
     } //Constructor for a god that sets damage type (P or M) and name.
-    //TODO Add other default values to constructor to reduce amount of settters required.
+    //TODO Add other default values to constructor to reduce amount of setters required.
 
     //Other variables for gods. These are set by setters rather than constructor.
     private int level; //God level
@@ -155,6 +166,18 @@ public class God {
 
     public int getMS(){
         return baseMS;
+    }
+
+    public String getURL(){
+        return imageUrl;
+    }
+
+    public String getPantheon(){
+        return pantheon;
+    }
+
+    public String getType(){
+        return type;
     }
 
 }
