@@ -1,10 +1,14 @@
 package builder;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -27,10 +31,16 @@ public class MainScreenController implements Initializable{
 
     private Main mainClass;
 
+    String searchInput = "";
+    String pantheonSelection = "Any";
+    String typeSelection = "Any";
+
     @FXML GridPane godGrid;
     @FXML ScrollPane godScroll;
     @FXML TextField searchField;
     @FXML Label noneFound;
+    @FXML ChoiceBox pantheonFilter;
+    @FXML ChoiceBox typeFilter;
 
     public void initialize(URL url, ResourceBundle rb) {
         mainClass = Main.getInstance();
@@ -86,7 +96,29 @@ public class MainScreenController implements Initializable{
         godScroll.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color:transparent;");
         godScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         searchField.textProperty().addListener((observable, oldText, newText)->{
-            SearchUpdated(newText);
+            searchInput = newText;
+            SearchUpdated();
+        });
+        pantheonFilter.setItems(FXCollections.observableArrayList(
+                "Any", "Celtic", "Chinese", "Egyptian", "Greek", "Hindu", "Mayan", "Norse", "Roman", "Slavic"));
+        pantheonFilter.setValue("Any");
+        pantheonFilter.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+                pantheonSelection = String.valueOf(pantheonFilter.getItems().get((Integer) number2));
+                SearchUpdated();
+            }
+        });
+
+        typeFilter.setItems(FXCollections.observableArrayList(
+                "Any", "Assassin", "Guardian", "Hunter", "Mage", "Warrior"));
+        typeFilter.setValue("Any");
+        typeFilter.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+                typeSelection = String.valueOf(typeFilter.getItems().get((Integer) number2));
+                SearchUpdated();
+            }
         });
     }
 
@@ -227,7 +259,7 @@ public class MainScreenController implements Initializable{
         System.out.println(g.getName() + " selected!");
     }
 
-    private void SearchUpdated(String s){
+    private void SearchUpdated(){
         tempArray.clear();
         int columnCount = 0;
         while(columnCount < 9){
@@ -238,7 +270,7 @@ public class MainScreenController implements Initializable{
             }
             columnCount++;
         }
-        String search = s.toLowerCase();
+        String search = searchInput.toLowerCase();
         System.out.println("Searching for gods that contain: " + search);
         int count = 0;
         while(count < mainClass.getGodList().size()){
@@ -247,6 +279,31 @@ public class MainScreenController implements Initializable{
             }
             count++;
         }
+
+        //Remove elements that do not fit pantheon filter
+        if(!(pantheonSelection.equals("Any"))){
+            count = 0;
+            while(count < tempArray.size()){
+                if(!(tempArray.get(count).getPantheon().equals(pantheonSelection))){
+                    tempArray.remove(count);
+                    count--;
+                }
+                count++;
+            }
+        }
+
+        //Remove elements that do not fit class filter
+        if(!(typeSelection.equals("Any"))){
+            count = 0;
+            while(count < tempArray.size()){
+                if(!(tempArray.get(count).getType().equals(typeSelection))){
+                    tempArray.remove(count);
+                    count--;
+                }
+                count++;
+            }
+        }
+
         Collections.sort(tempArray, new Comparator<God>() {
             @Override
             public int compare(God god, God g1) {

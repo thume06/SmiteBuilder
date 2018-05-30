@@ -47,5 +47,17 @@
             <Font size="31.0" />
          </font>
       </Label>
+      <ChoiceBox fx:id="pantheonFilter" layoutX="214.0" layoutY="36.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="typeFilter" layoutX="414.0" layoutY="36.0" prefWidth="150.0" />
+      <Label layoutX="257.0" layoutY="61.0" text="Pantheon">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="472.0" layoutY="61.0" text="Class">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
