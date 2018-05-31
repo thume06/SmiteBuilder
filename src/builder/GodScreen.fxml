@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="screenPane" prefHeight="600.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="builder.GodScreenController">
+   <children>
+      <Label fx:id="lblGod" alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="917.0" text="?godName" textAlignment="CENTER">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
+      <Button fx:id="godListScreen" layoutX="420.0" layoutY="546.0" mnemonicParsing="false" onAction="#godListScreen" text="Back to god select" />
+      <ImageView fx:id="godImage" fitHeight="128.0" fitWidth="128.0" layoutX="697.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

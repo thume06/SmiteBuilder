@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 public class Main extends Application {
     private ArrayList<God> godArrayList = new ArrayList<>(); //contains all gods
+
+    String selectedGod = "";
+
     God Ra = new God("Ra", "Mage", "Egyptian", "ra.png");
     God Agni = new God("Agni","Mage", "Egyptian", "agni.png");
     God Achilles = new God("Achilles", "Warrior", "Greek", "achilles.png");
@@ -111,9 +114,6 @@ public class Main extends Application {
 
     private static Main instance;
 
-    public static String screen1ID = "MainScreen";
-    public static String screen1File = "MainScreen.fxml";
-
     private Stage stage;
 
     public Main() {
@@ -126,6 +126,14 @@ public class Main extends Application {
 
     public ArrayList<God> getGodList(){
         return godArrayList;
+    }
+
+    public void setGod(String g){
+        selectedGod = g;
+    }
+
+    public String getGod(){
+        return selectedGod;
     }
 
     private void InitializeGods(){

@@ -1,8 +1,5 @@
 package builder;
 
-//TODO The idea now is to make the God the base for the menu. First you will select a God and then items. We will be able to input
-//TODO information from item objects into god objects after the item is selected to alter the God stats.
-
 public class God {
 
     private String damageType;
@@ -22,7 +19,7 @@ public class God {
         pantheon = p;
         imageUrl = url;
         level = 1;
-    } //Constructor for a god that sets damage type (P or M) and name.
+    } //Constructor for a god that sets damage type (P or M), name, class, (type) and pantheon.
     //TODO Add other default values to constructor to reduce amount of setters required.
 
     //Other variables for gods. These are set by setters rather than constructor.
@@ -131,7 +128,7 @@ public class God {
         magicalDefScale = s;
     }
 
-    //TODO Create getters for god class
+
     //Begin getters
 
     public String getName(){
@@ -157,7 +154,7 @@ public class God {
 
     public double getMana(){
         if(level > 1){
-            return baseHealth + (level*manaScale);
+            return baseMana + (level*manaScale);
         }
         else{
             return baseMana;

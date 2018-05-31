@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -16,7 +17,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +39,7 @@ public class MainScreenController implements Initializable{
     String pantheonSelection = "Any";
     String typeSelection = "Any";
 
+    @FXML AnchorPane screenPane;
     @FXML GridPane godGrid;
     @FXML ScrollPane godScroll;
     @FXML TextField searchField;
@@ -125,7 +130,7 @@ public class MainScreenController implements Initializable{
     //This method is to be run once tempArray is sorted with all the gods to be displayed in order.
     //It takes care of drawing the images and adding any events associated with them
     private void RefreshGods(){
-        //initializes all grids to empty
+        //Clears all grid spaces
         godGrid.getChildren().clear();
 
         //makes the notification label for when no gods are found invisible
@@ -134,19 +139,12 @@ public class MainScreenController implements Initializable{
         //Gets the number of rows required and adds the scroll bar if needed
         double rows = Math.ceil(tempArray.size()/9.0);
 
-        //Event filter consumeScroll is added or removed based on if there are enough rows for the ScrollPane to be scrollable.
-        EventHandler<ScrollEvent> consumeScroll = new EventHandler<ScrollEvent>() {
-            @Override
-            public void handle(ScrollEvent event) {
-                event.consume();
-            }};
+        //Adds/removes scroll bar when necessary
         if(rows > 5){
             godScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-            godScroll.removeEventFilter(ScrollEvent.ANY, consumeScroll);
         }
         else{
             godScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            godScroll.addEventFilter(ScrollEvent.ANY, consumeScroll);
         }
 
         //Reduces the size of the grid so that scrolling is not longer than the list of gods
@@ -222,7 +220,7 @@ public class MainScreenController implements Initializable{
                 godImage.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        GodSelected(god, god.getURL());
+                        GodSelected(god);
                     }
                 });
                 godImage.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
@@ -255,8 +253,19 @@ public class MainScreenController implements Initializable{
         }
     }
 
-    private void GodSelected(God g, String img){
-        System.out.println(g.getName() + " selected!");
+    private void GodSelected(God g){
+        mainClass.setGod(g.getName());
+        try{
+            setGodScreen();
+        }
+        catch(IOException e){
+            System.out.println("Failed to load god screen");
+        }
+    }
+
+    private void setGodScreen() throws IOException{
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("GodScreen.fxml"));
+        screenPane.getChildren().setAll(pane);
     }
 
     private void SearchUpdated(){
@@ -271,7 +280,6 @@ public class MainScreenController implements Initializable{
             columnCount++;
         }
         String search = searchInput.toLowerCase();
-        System.out.println("Searching for gods that contain: " + search);
         int count = 0;
         while(count < mainClass.getGodList().size()){
             if(mainClass.getGodList().get(count).getName().toLowerCase().contains(search)){
