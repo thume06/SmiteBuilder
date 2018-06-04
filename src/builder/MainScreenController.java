@@ -50,15 +50,9 @@ public class MainScreenController implements Initializable{
 
     public void initialize(URL url, ResourceBundle rb) {
         mainClass = Main.getInstance();
-        InitializeItems();
         InitializeGods();
         InitializeOther();
         RefreshGods();
-    }
-
-    private void InitializeItems(){
-        //TODO Book of Thoth and Trans are fine for now, lets get other functionality working before adding more items.
-        //-----------------------------------------T3 Items------------------------------------------//
     }
 
     private void InitializeGods(){

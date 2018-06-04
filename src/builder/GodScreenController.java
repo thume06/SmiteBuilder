@@ -20,12 +20,24 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GodScreenController implements Initializable{
     private Main mainClass;
+    private static GodScreenController instance;
+    public GodScreenController() {
+        instance = this;
+    }
+    public static GodScreenController getInstance() {
+        return instance;
+    }
 
     God god;
+
+    private ArrayList<Item> build = new ArrayList<>();
+
+    private int selectedColumn = 99; //99 is default value if nothing is selected
 
     private double health;
     private double physDef;
@@ -94,6 +106,11 @@ public class GodScreenController implements Initializable{
         else{
             lblDamage.setText("Mag Power:");
         }
+        count = 0;
+        while(count < 6){
+            build.add(null);
+            count++;
+        }
         InitializeItems();
     }
 
@@ -133,7 +150,7 @@ public class GodScreenController implements Initializable{
         }
     }
 
-    public void godListScreen() throws IOException{
+    public void godListScreen() throws  IOException{
         changeScreen();
     }
 
@@ -143,7 +160,9 @@ public class GodScreenController implements Initializable{
     }
 
     private void itemSlotPressed(double c) throws IOException{
-        System.out.println(c);
+        String column = String.valueOf(c);
+        column = column.substring(0, 1);
+        selectedColumn = Integer.valueOf(column);
         Parent root = FXMLLoader.load(getClass().getResource("ItemSelect.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -164,5 +183,52 @@ public class GodScreenController implements Initializable{
         }
 
         return rounded;
+    }
+
+    public void itemSelected(String n) {
+        int columnSave = selectedColumn;
+        build.set(columnSave, mainClass.getItem(n));
+        ImageView item = new ImageView(new Image(n + ".png"));
+        ImageView hover = new ImageView(new Image("hover.png"));
+        item.setFitWidth(100);
+        item.setFitHeight(100);
+        hover.setFitWidth(100);
+        hover.setFitHeight(100);
+        hover.setDisable(true);
+        hover.setOpacity(0);
+        item.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try {
+                    itemSlotPressed(columnSave);
+                } catch (IOException e) {
+                    System.out.println("Failed to load item select screen");
+                }
+            }
+        });
+        item.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                hover.setOpacity(1);
+            }
+        });
+        item.addEventFilter(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                hover.setOpacity(0);
+            }
+        });
+        itemGrid.add(item, selectedColumn, 0);
+        itemGrid.add(hover, selectedColumn, 0);
+        selectedColumn = 99;
+        updateStats();
+    }
+
+    private void updateStats(){
+
+    }
+
+    public String getDamageType(){
+        return god.getDamageType();
     }
 }

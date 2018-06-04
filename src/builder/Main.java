@@ -116,7 +116,7 @@ public class Main extends Application {
 
     //Item Initializations
     Item BookOfThoth = new Item("Book of Thoth");
-    Item Transcendance = new Item("Transcendance");
+    Item Transcendance = new Item("Transcendence");
 
     private static Main instance;
 
@@ -132,6 +132,10 @@ public class Main extends Application {
 
     public ArrayList<God> getGodList(){
         return godArrayList;
+    }
+
+    public ArrayList<Item> getItemList(){
+        return itemArrayList;
     }
 
     public void setGod(String g){

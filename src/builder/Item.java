@@ -1,6 +1,6 @@
 package builder;
 import java.util.*;
-public class Item {
+public class Item{
 
     /*Variables for each stat will exist, but not every variable must be initialized, only those for stats being used.
     This means use only a default constructor. Initialize values with setters.*/
