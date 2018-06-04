@@ -13,9 +13,11 @@ import java.util.ArrayList;
 
 public class Main extends Application {
     private ArrayList<God> godArrayList = new ArrayList<>(); //contains all gods
+    private ArrayList<Item> itemArrayList = new ArrayList<>(); //contains all items
 
     String selectedGod = "";
 
+    //God Initializations
     God Ra = new God("Ra", "Mage", "Egyptian", "ra.png");
     God Agni = new God("Agni","Mage", "Egyptian", "agni.png");
     God Achilles = new God("Achilles", "Warrior", "Greek", "achilles.png");
@@ -112,6 +114,10 @@ public class Main extends Application {
     God Zeus = new God("Zeus", "Mage", "Greek", "zeus.png");
     God ZhongKui = new God("Zhong Kui", "Mage", "Chinese", "zhongkui.png");
 
+    //Item Initializations
+    Item BookOfThoth = new Item("Book of Thoth");
+    Item Transcendance = new Item("Transcendance");
+
     private static Main instance;
 
     private Stage stage;
@@ -136,6 +142,18 @@ public class Main extends Application {
         return selectedGod;
     }
 
+    public Item getItem(String i){
+        int count = 0;
+        while(count < itemArrayList.size()){
+            if(itemArrayList.get(count).getName().equals(i)){
+                return itemArrayList.get(count);
+            }
+            count++;
+        }
+        System.out.println("Item not found");
+        return null;
+    }
+
     private void InitializeGods(){
         Ra.setBaseHealth(385);
         Ra.setHealthScale(68);
@@ -150,6 +168,10 @@ public class Main extends Application {
         Ra.setPhysicalDefScale(2.5);
         Ra.setBaseMagicalDef(30);
         Ra.setMagicalDefScale(0.9);
+        Ra.setHP5(7);
+        Ra.setHP5Scale(0.48);
+        Ra.setMP5(4.8);
+        Ra.setMP5Scale(0.44);
         godArrayList.add(Ra);
 
         godArrayList.add(Agni);
@@ -341,18 +363,34 @@ public class Main extends Application {
         godArrayList.add(Cerberus);
     }
 
+    private void InitializeItems(){
+        BookOfThoth.setDamageType("M");
+        BookOfThoth.setMagicalPower(100);
+        BookOfThoth.setMana(125);
+        BookOfThoth.setMp5(15);
+        BookOfThoth.setMaxStacks(75);
+        BookOfThoth.setStacks(75);
+        BookOfThoth.setStackMana(10);
+        BookOfThoth.setTier(3);
+        itemArrayList.add(BookOfThoth);
+
+        Transcendance.setDamageType("P");
+        Transcendance.setPhysicalPower(35);
+        Transcendance.setMana(300);
+        Transcendance.setMp5(6);
+        Transcendance.setCDR(10);
+        Transcendance.setMaxStacks(50);
+        Transcendance.setStacks(50);
+        Transcendance.setTier(3);
+        itemArrayList.add(Transcendance);
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         InitializeGods();
+        InitializeItems();
         this.stage = stage;
-
-        /*ScreensController mainContainer = new ScreensController();
-        mainContainer.loadScreen(Main.screen1ID, Main.screen1File);
-        mainContainer.setScreen(Main.screen1ID);*/
-
         Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-        /*Group root = new Group();
-        root.getChildren().addAll(mainContainer);*/
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setResizable(false);

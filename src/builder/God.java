@@ -40,6 +40,10 @@ public class God {
     private double physicalDefScale;
     private double baseMagicalDef;
     private double magicalDefScale;
+    private double HP5;
+    private double MP5;
+    private double HP5Scale;
+    private double MP5Scale;
 
 
     public void PrintInfo(){
@@ -128,6 +132,21 @@ public class God {
         magicalDefScale = s;
     }
 
+    public void setHP5(double h){
+        HP5 = h;
+    }
+
+    public void setMP5(double m){
+        MP5 = m;
+    }
+
+    public void setHP5Scale(double h){
+        HP5Scale = h;
+    }
+
+    public void setMP5Scale(double m){
+        MP5Scale = m;
+    }
 
     //Begin getters
 
@@ -144,21 +163,15 @@ public class God {
     }
 
     public double getHealth(){
-        if(level > 1){
-            return baseHealth + (level*healthScale);
-        }
-        else{
-            return baseHealth;
-        }
+        return baseHealth;
+    }
+
+    public double getHealthScale(){
+        return healthScale;
     }
 
     public double getMana(){
-        if(level > 1){
-            return baseMana + (level*manaScale);
-        }
-        else{
-            return baseMana;
-        }
+        return baseMana;
     }
 
     public int getMS(){
@@ -175,6 +188,38 @@ public class God {
 
     public String getType(){
         return type;
+    }
+
+    public double getBasePhysicalDef(){
+        return basePhysicalDef;
+    }
+
+    public double getBaseMagicalDef(){
+        return baseMagicalDef;
+    }
+
+    public double getPhysicalDefScale(){
+        return physicalDefScale;
+    }
+
+    public double getMagicalDefScale(){
+        return magicalDefScale;
+    }
+
+    public double getHP5(){
+        return HP5;
+    }
+
+    public double getHP5Scale(){
+        return HP5Scale;
+    }
+
+    public double getMP5(){
+        return MP5;
+    }
+
+    public double getMP5Scale(){
+        return MP5Scale;
     }
 
 }

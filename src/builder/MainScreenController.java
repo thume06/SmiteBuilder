@@ -22,6 +22,7 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -58,21 +59,6 @@ public class MainScreenController implements Initializable{
     private void InitializeItems(){
         //TODO Book of Thoth and Trans are fine for now, lets get other functionality working before adding more items.
         //-----------------------------------------T3 Items------------------------------------------//
-        BookOfThoth.setDamageType("M");
-        BookOfThoth.setMagicalPower(100);
-        BookOfThoth.setMana(125);
-        BookOfThoth.setMp5(15);
-        BookOfThoth.setMaxStacks(75);
-        BookOfThoth.setStacks(75);
-        BookOfThoth.setStackMana(10);
-
-        Transcendance.setDamageType("P");
-        Transcendance.setPhysicalPower(35);
-        Transcendance.setMana(300);
-        Transcendance.setMp5(6);
-        Transcendance.setCDR(10);
-        Transcendance.setMaxStacks(50);
-        Transcendance.setStacks(50);
     }
 
     private void InitializeGods(){

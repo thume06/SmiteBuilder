@@ -32,6 +32,7 @@ public class Item {
     private int stacks; //Only for stackable items
     private int maxStacks; //Only for stackable items
     private int stackMana; //This is only for Book of Thoth and Trans
+    private int tier;
     //TODO Figure out a way to calculate power from trans and thoth passives that includes god mana.
 
     ArrayList<String> statsUsed = new ArrayList<>(); //ArrayList is returned by getStatsUsed getter.
@@ -186,7 +187,15 @@ public class Item {
         statsUsed.add("mana");
     }
 
+    public void setTier(int t){
+        tier = t;
+    }
+
     //Begin getters
+    public String getName(){
+        return name;
+    }
+
     public ArrayList<String> getStatsUsed(){
         return statsUsed;
     } //Used to interact with the statsUsed ArrayList.
@@ -277,5 +286,9 @@ public class Item {
 
     public int getStackMana(){
         return stackMana;
+    }
+
+    public int getTier(){
+        return tier;
     }
 }
