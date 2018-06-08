@@ -209,6 +209,23 @@ public class Main extends Application {
         Agni.setMP5Scale(0.37);
         godArrayList.add(Agni);
 
+        Achilles.setBaseHealth(547);
+        Achilles.setHealthScale(82);
+        Achilles.setBaseMana(240);
+        Achilles.setManaScale(35);
+        Achilles.setBaseMS(370);
+        Achilles.setBasicAttackDamage(40);
+        Achilles.setBasicAttackScale(2);
+        Achilles.setAttackSpeed(0.96);
+        Achilles.setAttackSpeedScale(0.0125);
+        Achilles.setBasePhysicalDef(20);
+        Achilles.setPhysicalDefScale(3);
+        Achilles.setBaseMagicalDef(30.9);
+        Achilles.setMagicalDefScale(0.9);
+        Achilles.setHP5(9.75);
+        Achilles.setHP5Scale(0.75);
+        Achilles.setMP5(5.09);
+        Achilles.setMP5Scale(0.39);
         godArrayList.add(Achilles);
 
         godArrayList.add(Aphrodite);

@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class ItemSelectController implements Initializable {
@@ -113,8 +115,19 @@ public class ItemSelectController implements Initializable {
             }
             count++;
         }
+
+        //Finally the items are sorted alphabetically
+        Collections.sort(tempArray, new Comparator<Item>() {
+            @Override
+            public int compare(Item i1, Item i2) {
+                String s1 = i1.getName();
+                String s2 = i2.getName();
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
     }
 
+    //Adds all items from the tempArray to the screen
     private void RefreshItems() {
         //Clears all grid spaces
         itemGrid.getChildren().clear();
@@ -184,6 +197,7 @@ public class ItemSelectController implements Initializable {
                 itemName.setText(itemTable[columnCount][rowCount]);
                 itemName.setDisable(true);
                 itemName.setOpacity(1);
+                itemName.setStyle("-fx-font-size: 11;");
                 ImageView hover = new ImageView(new Image("hover.png"));
                 hover.setFitWidth(87);
                 hover.setFitHeight(87);
@@ -237,10 +251,8 @@ public class ItemSelectController implements Initializable {
     }
 
     private void ItemSelected(String n){
-        String itemName = n;
         godScreen.itemSelected(n);
         Stage stage = (Stage) itemScroll.getScene().getWindow();
         stage.close();
     }
-
 }
