@@ -16,7 +16,10 @@
          </font>
       </Label>
       <Button fx:id="godListScreen" layoutX="420.0" layoutY="546.0" mnemonicParsing="false" onAction="#godListScreen" text="Back to god select" />
-      <ImageView fx:id="godImage" fitHeight="128.0" fitWidth="128.0" layoutX="697.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="godImage" fitHeight="128.0" fitWidth="128.0" layoutX="697.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/hover.png" />
+         </image></ImageView>
       <Label layoutX="75.0" layoutY="70.0" text="Health:">
          <font>
             <Font size="16.0" />
@@ -102,5 +105,13 @@
           <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
+      <Label layoutX="691.0" layoutY="233.0" text="Level:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtLevel" editable="false" layoutX="734.0" layoutY="233.0" prefHeight="25.0" prefWidth="33.0" />
+      <Button fx:id="btnIncreaseLevel" layoutX="772.0" layoutY="233.0" mnemonicParsing="false" onAction="#increasePressed" prefHeight="25.0" prefWidth="26.0" text="+" />
+      <Button fx:id="btnDecreaseLevel" layoutX="805.0" layoutY="233.0" mnemonicParsing="false" onAction="#decreasePressed" prefHeight="25.0" prefWidth="26.0" text="-" />
    </children>
 </AnchorPane>

@@ -29,8 +29,6 @@ import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable{
-    Item BookOfThoth = new Item("Book of Thoth");
-    Item Transcendance = new Item("Transcendance");
     private ArrayList<God> tempArray = new ArrayList<>(); //will contain gods after filtering
     private God[][] godTable = new God[9][11]; //columns first, then rows 0,0 is top left. rows increase down. columns increase to the right.
 

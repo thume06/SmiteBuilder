@@ -60,6 +60,59 @@ public class ItemSelectController implements Initializable {
             }
             count++;
         }
+
+        //Loop filters through items that are already selected
+        count = 0;
+        while(count < tempArray.size()){
+            int count2 = 0;
+            while(count2 < godScreen.getBuild().size()){
+                if(godScreen.getBuild().get(count2) == null){
+                    count2++;
+                    continue;
+                }
+                if(tempArray.get(count).getName().equals(godScreen.getBuild().get(count2).getName())){
+                    tempArray.remove(count);
+                    count--;
+                }
+                count2++;
+            }
+            count++;
+        }
+
+        //Loop filters through item restrictions
+        count = 0;
+        while(count < tempArray.size()){
+            //Skips T3 items to make it faster
+            if(tempArray.get(count).getTier() == 3){
+                count++;
+                continue;
+            }
+            ArrayList<String> restrictingItems = tempArray.get(count).getRestrictingItems();
+
+            int count2 = 0;
+            int restrictedCount = 0;
+            while(count2 < godScreen.getBuild().size()){
+                //Skips if the build slot is empty
+                if(godScreen.getBuild().get(count2) == null){
+                    count2++;
+                    continue;
+                }
+
+                int count3 = 0;
+                while(count3 < restrictingItems.size()){
+                    if(godScreen.getBuild().get(count2).getName().equals(restrictingItems.get(count3))){
+                        restrictedCount++;
+                    }
+                    count3++;
+                }
+                count2++;
+            }
+            if(restrictedCount == restrictingItems.size()){
+                tempArray.remove(count);
+                count--;
+            }
+            count++;
+        }
     }
 
     private void RefreshItems() {
@@ -70,7 +123,7 @@ public class ItemSelectController implements Initializable {
         noneFound.setOpacity(0);
 
         //Gets the number of rows required and adds the scroll bar if needed
-        double rows = Math.ceil(tempArray.size() / 9.0);
+        double rows = Math.ceil(tempArray.size() / 7.0);
 
         //Adds/removes scroll bar when necessary
         if (rows > 5) {
@@ -85,6 +138,12 @@ public class ItemSelectController implements Initializable {
         itemGrid.setMinHeight(height);
         itemGrid.setPrefHeight(height);
 
+        //Shows the None Found label and exits the method if no items are on the array
+        if(tempArray.size() == 0){
+            noneFound.setOpacity(1);
+            return;
+        }
+
         int rowCount = 0;
         while (rowCount < rows) {
             //if on the last row, loop through the rest of the temp array.
@@ -98,12 +157,12 @@ public class ItemSelectController implements Initializable {
             //if not on the last row, loop through one row then remove it from the temp array.
             else {
                 int count = 0;
-                while (count < 9) {
+                while (count < 7) {
                     itemTable[count][rowCount] = tempArray.get(count).getName();
                     count++;
                 }
                 count = 0;
-                while (count < 9) {
+                while (count < 7) {
                     tempArray.remove(0);
                     count++;
                 }
@@ -116,7 +175,7 @@ public class ItemSelectController implements Initializable {
         while (rowCount < rows) {
             boolean toBreak = false;
             int columnCount = 0;
-            while (columnCount < 9) {
+            while (columnCount < 7) {
                 if (itemTable[columnCount][rowCount] == null) {
                     toBreak = true;
                     break;

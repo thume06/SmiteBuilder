@@ -174,6 +174,10 @@ public class God {
         return baseMana;
     }
 
+    public double getManaScale(){
+        return manaScale;
+    }
+
     public int getMS(){
         return baseMS;
     }

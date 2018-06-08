@@ -115,8 +115,20 @@ public class Main extends Application {
     God ZhongKui = new God("Zhong Kui", "Mage", "Chinese", "zhongkui.png");
 
     //Item Initializations
+    //Tier 3---------------------------------------
     Item BookOfThoth = new Item("Book of Thoth");
     Item Transcendance = new Item("Transcendence");
+    Item TyphonsFang = new Item("Typhon's Fang");
+    Item BancroftsTalon = new Item("Bancroft's Talon");
+    Item SoulGem = new Item("Soul Gem");
+    Item PythagoremsPiece = new Item("Pythagorem's Piece");
+
+    //Tier 2---------------------------------------
+    Item TalonTrinket = new Item("Talon Trinket");
+    Item EnchantedTrinket = new Item("Enchanted Trinket");
+
+    //Tier 1---------------------------------------
+    Item TinyTrinket = new Item("Tiny Trinket");
 
     private static Main instance;
 
@@ -387,6 +399,64 @@ public class Main extends Application {
         Transcendance.setStacks(50);
         Transcendance.setTier(3);
         itemArrayList.add(Transcendance);
+
+        TinyTrinket.setDamageType("M");
+        TinyTrinket.setMagicalPower(20);
+        TinyTrinket.setMagicLS(.06);
+        TinyTrinket.setTier(1);
+        TinyTrinket.addRestriction("Typhon's Fang");
+        TinyTrinket.addRestriction("Bancroft's Talon");
+        TinyTrinket.addRestriction("Soul Gem");
+        TinyTrinket.addRestriction("Pythagorem's Piece");
+        itemArrayList.add(TinyTrinket);
+
+        TalonTrinket.setDamageType("M");
+        TalonTrinket.setMagicalPower(60);
+        TalonTrinket.setMana(100);
+        TalonTrinket.setMagicLS(.08);
+        TalonTrinket.setTier(2);
+        TalonTrinket.addRestriction("Typhon's Fang");
+        TalonTrinket.addRestriction("Bancroft's Talon");
+        itemArrayList.add(TalonTrinket);
+
+        TyphonsFang.setDamageType("M");
+        TyphonsFang.setMagicalPower(100);
+        TyphonsFang.setMana(200);
+        TyphonsFang.setMagicLS(.10);
+        TyphonsFang.setTier(3);
+        itemArrayList.add(TyphonsFang);
+
+        BancroftsTalon.setDamageType("M");
+        BancroftsTalon.setMagicalPower(100);
+        BancroftsTalon.setMagicLS(.15);
+        BancroftsTalon.setMana(150);
+        BancroftsTalon.setTier(3);
+        itemArrayList.add(BancroftsTalon);
+
+        EnchantedTrinket.setDamageType("M");
+        EnchantedTrinket.setMagicalPower(30);
+        EnchantedTrinket.setHealth(100);
+        EnchantedTrinket.setMagicLS(.12);
+        EnchantedTrinket.setTier(2);
+        EnchantedTrinket.addRestriction("Soul Gem");
+        EnchantedTrinket.addRestriction("Pythagorem's Piece");
+        itemArrayList.add(EnchantedTrinket);
+
+        SoulGem.setDamageType("M");
+        SoulGem.setMagicalPower(65);
+        SoulGem.setHealth(150);
+        SoulGem.setMagicLS(.12);
+        SoulGem.setCDR(10);
+        SoulGem.setTier(3);
+        itemArrayList.add(SoulGem);
+
+        PythagoremsPiece.setDamageType("M");
+        PythagoremsPiece.setMagicalPower(40);
+        PythagoremsPiece.setHealth(200);
+        PythagoremsPiece.setMagicLS(.12);
+        PythagoremsPiece.setCDR(10);
+        PythagoremsPiece.setTier(3);
+        itemArrayList.add(PythagoremsPiece);
     }
 
     @Override
@@ -412,5 +482,4 @@ public class Main extends Application {
     public static void main (String[]args){
         launch(args);
     }
-
 }

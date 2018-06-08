@@ -40,12 +40,17 @@ public class GodScreenController implements Initializable{
     private int selectedColumn = 99; //99 is default value if nothing is selected
 
     private double health;
+    private double HP5;
+    private double mana;
+    private double MP5;
     private double physDef;
     private double magDef;
     private double physMult;
     private double physMit;
     private double magMult;
     private double magMit;
+    private double power = 0;
+    private int level = 1;
 
     @FXML AnchorPane screenPane;
     @FXML GridPane itemGrid;
@@ -65,6 +70,9 @@ public class GodScreenController implements Initializable{
     @FXML TextField txtFlatPen;
     @FXML TextField txtPercPen;
     @FXML TextField txtMovement;
+    @FXML TextField txtLevel;
+    @FXML Button btnIncreaseLevel;
+    @FXML Button btnDecreaseLevel;
 
     public void initialize(URL url, ResourceBundle rb) {
         mainClass = Main.getInstance();
@@ -76,7 +84,7 @@ public class GodScreenController implements Initializable{
             }
             count++;
         }
-
+        txtLevel.setText("1");
         txtHealth.setText(round(god.getHealth()));
         health = god.getHealth();
         txtPhysDef.setText(round(god.getBasePhysicalDef()));
@@ -142,6 +150,7 @@ public class GodScreenController implements Initializable{
                     }
                     catch(IOException e){
                         System.out.println("Failed to load item select screen");
+                        e.printStackTrace();
                     }
                 }
             });
@@ -224,11 +233,107 @@ public class GodScreenController implements Initializable{
         updateStats();
     }
 
+    //Updates god stats. Calls other methods for updating the text fields and applying effects
     private void updateStats(){
+        //sets stats to base stats plus level scaling
+        power = 0;
+        health = god.getHealth() + ((level - 1) * god.getHealthScale());
+        HP5 = god.getHP5() + ((level - 1) * god.getHP5Scale());
+        physDef = god.getBasePhysicalDef() + ((level - 1) * god.getPhysicalDefScale());
+        magDef = god.getBaseMagicalDef() + ((level - 1) * god.getMagicalDefScale());
+        mana = god.getMana() + ((level - 1) * god.getManaScale());
+        MP5 = god.getMP5() + ((level - 1) * god.getMP5Scale());
 
+        //loop through the build
+        int count = 0;
+        while(count < 6){
+            //skips empty slots
+            if(build.get(count) == null){
+                count++;
+                continue;
+            }
+
+            //if the item adds health
+            if(build.get(count).usesStat("health")){
+                health = health + build.get(count).getHealth();
+            }
+
+            //if the item adds mana
+            if(build.get(count).usesStat("mana")){
+                mana = mana + build.get(count).getMana();
+            }
+
+            //if the item adds physical defense
+            if(build.get(count).usesStat("physicalDef")){
+                physDef = physDef + build.get(count).getPhysicalDef();
+            }
+
+            //if the item adds magical defense
+            if(build.get(count).usesStat("magicalDef")){
+                magDef = magDef + build.get(count).getMagicalDef();
+            }
+
+            //if the item adds magical power
+            if(build.get(count).usesStat("magicalPower")){
+                power = power + build.get(count).getMagicalPower();
+            }
+
+            //if the item adds physical power
+            if (build.get(count).usesStat("physicalPower")){
+                power = power + build.get(count).getPhysicalPower();
+            }
+
+            //if the item adds HP5
+            if(build.get(count).usesStat("hp5")){
+                HP5 = HP5 + build.get(count).getHP5();
+            }
+
+            //if the item adds MP5
+            if(build.get(count).usesStat("mp5")){
+                MP5 = MP5 + build.get(count).getMP5();
+            }
+            count++;
+        }
+        updateTextFields();
+    }
+
+    private void updateTextFields(){
+        txtHealth.setText(round(health));
+        txtPhysDef.setText(round(physDef));
+        physMult = (100.0/(physDef + 100));
+        physMit = 1-physMult;
+        txtPhysHealth.setText(round(health * physMit + health));
+        txtMagDef.setText((round(magDef)));
+        magMult = (100.0/(magDef + 100));
+        magMit = 1 - magMult;
+        txtMagHealth.setText(round(health * magMit + health));
+        txtHP5.setText(round(HP5));
+        txtMana.setText(round(mana));
+        txtMP5.setText(round(MP5));
+        txtPower.setText(round(power));
     }
 
     public String getDamageType(){
         return god.getDamageType();
+    }
+
+    public ArrayList<Item> getBuild(){
+        return build;
+    }
+
+    @FXML public void increasePressed(){
+        if(level < 20) {
+            level++;
+            txtLevel.setText(String.valueOf(level));
+            updateStats();
+        }
+    }
+
+    @FXML public void decreasePressed(){
+        if(level > 1){
+            level--;
+            txtLevel.setText(String.valueOf(level));
+            updateStats();
+        }
     }
 }

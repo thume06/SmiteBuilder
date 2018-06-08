@@ -35,7 +35,8 @@ public class Item{
     private int tier;
     //TODO Figure out a way to calculate power from trans and thoth passives that includes god mana.
 
-    ArrayList<String> statsUsed = new ArrayList<>(); //ArrayList is returned by getStatsUsed getter.
+    private ArrayList<String> statsUsed = new ArrayList<>(); //ArrayList is returned by getStatsUsed getter.
+    private ArrayList<String > restrictingItems = new ArrayList<>(); //If all of these items are built, this item can no longer be built.
 
     public void PrintInfo(){
         System.out.println(name + " stats:");
@@ -191,6 +192,10 @@ public class Item{
         tier = t;
     }
 
+    public void addRestriction(String r){
+        restrictingItems.add(r);
+    }
+
     //Begin getters
     public String getName(){
         return name;
@@ -290,5 +295,21 @@ public class Item{
 
     public int getTier(){
         return tier;
+    }
+
+    public ArrayList<String> getRestrictingItems(){
+        return restrictingItems;
+    }
+
+
+    public boolean usesStat(String s){
+        int count = 0;
+        while(count < statsUsed.size()){
+            if(s.equals(statsUsed.get(count))){
+                return true;
+            }
+            count++;
+        }
+        return false;
     }
 }
