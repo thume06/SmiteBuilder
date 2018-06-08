@@ -87,20 +87,20 @@ public class GodScreenController implements Initializable{
         txtLevel.setText("1");
         txtHealth.setText(round(god.getHealth()));
         health = god.getHealth();
-        txtPhysDef.setText(round(god.getBasePhysicalDef()));
+        txtPhysDef.setText(roundWhole(god.getBasePhysicalDef()));
         physDef = god.getBasePhysicalDef();
         physMult = (100.0/(physDef + 100));
         physMit = 1-physMult;
-        txtPhysHealth.setText(round(health * physMit + health));
-        txtMagDef.setText(round(god.getBaseMagicalDef()));
+        txtPhysHealth.setText(roundWhole(health * physMit + health));
+        txtMagDef.setText(roundWhole(god.getBaseMagicalDef()));
         magDef = (god.getBaseMagicalDef());
         magMult = (100.0/(magDef + 100));
         magMit = 1 - magMult;
-        txtMagHealth.setText(round(health * magMit + health));
+        txtMagHealth.setText(roundWhole(health * magMit + health));
         txtHP5.setText(round(god.getHP5()));
-        txtMana.setText(round(god.getMana()));
+        txtMana.setText(roundWhole(god.getMana()));
         txtMP5.setText(round(god.getMP5()));
-        txtPower.setText(round(god.getPower()));
+        txtPower.setText(roundWhole(god.getPower()));
         txtFlatPen.setText("0");
         txtPercPen.setText("0");
         txtMovement.setText(String.valueOf(god.getMS()));
@@ -191,6 +191,13 @@ public class GodScreenController implements Initializable{
             rounded = rounded.substring(0, index);
         }
 
+        return rounded;
+    }
+
+    private String roundWhole(double v){
+        String rounded = String.valueOf(Math.rint(v));
+        int index = rounded.indexOf(".");
+        rounded = rounded.substring(0, index);
         return rounded;
     }
 
@@ -298,19 +305,19 @@ public class GodScreenController implements Initializable{
     }
 
     private void updateTextFields(){
-        txtHealth.setText(round(health));
-        txtPhysDef.setText(round(physDef));
+        txtHealth.setText(roundWhole(health));
+        txtPhysDef.setText(roundWhole(physDef));
         physMult = (100.0/(physDef + 100));
         physMit = 1-physMult;
-        txtPhysHealth.setText(round(health * physMit + health));
-        txtMagDef.setText((round(magDef)));
+        txtPhysHealth.setText(roundWhole(health * physMit + health));
+        txtMagDef.setText((roundWhole(magDef)));
         magMult = (100.0/(magDef + 100));
         magMit = 1 - magMult;
-        txtMagHealth.setText(round(health * magMit + health));
+        txtMagHealth.setText(roundWhole(health * magMit + health));
         txtHP5.setText(round(HP5));
-        txtMana.setText(round(mana));
+        txtMana.setText(roundWhole(mana));
         txtMP5.setText(round(MP5));
-        txtPower.setText(round(power));
+        txtPower.setText(roundWhole(power));
     }
 
     public String getDamageType(){

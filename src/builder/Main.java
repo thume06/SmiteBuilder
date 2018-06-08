@@ -171,25 +171,42 @@ public class Main extends Application {
     }
 
     private void InitializeGods(){
-        Ra.setBaseHealth(385);
+        Ra.setBaseHealth(453);
         Ra.setHealthScale(68);
-        Ra.setBaseMana(255);
+        Ra.setBaseMana(303);
         Ra.setManaScale(48);
         Ra.setBaseMS(360);
-        Ra.setBasicAttackDamage(34);
+        Ra.setBasicAttackDamage(36);
         Ra.setBasicAttackScale(1.5);
-        Ra.setAttackSpeed(0.88);
+        Ra.setAttackSpeed(0.89);
         Ra.setAttackSpeedScale(.01);
-        Ra.setBasePhysicalDef(10);
+        Ra.setBasePhysicalDef(12.5);
         Ra.setPhysicalDefScale(2.5);
-        Ra.setBaseMagicalDef(30);
+        Ra.setBaseMagicalDef(30.9);
         Ra.setMagicalDefScale(0.9);
-        Ra.setHP5(7);
+        Ra.setHP5(7.48);
         Ra.setHP5Scale(0.48);
-        Ra.setMP5(4.8);
+        Ra.setMP5(5.24);
         Ra.setMP5Scale(0.44);
         godArrayList.add(Ra);
 
+        Agni.setBaseHealth(431);
+        Agni.setHealthScale(71);
+        Agni.setBaseMana(300);
+        Agni.setManaScale(45);
+        Agni.setBaseMS(355);
+        Agni.setBasicAttackDamage(36);
+        Agni.setBasicAttackScale(1.5);
+        Agni.setAttackSpeed(1.01);
+        Agni.setAttackSpeedScale(.012);
+        Agni.setBasePhysicalDef(13.6);
+        Agni.setPhysicalDefScale(2.6);
+        Agni.setBaseMagicalDef(30.9);
+        Agni.setMagicalDefScale(0.9);
+        Agni.setHP5(7.47);
+        Agni.setHP5Scale(0.47);
+        Agni.setMP5(5.07);
+        Agni.setMP5Scale(0.37);
         godArrayList.add(Agni);
 
         godArrayList.add(Achilles);
