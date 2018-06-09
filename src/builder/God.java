@@ -225,5 +225,4 @@ public class God {
     public double getMP5Scale(){
         return MP5Scale;
     }
-
 }

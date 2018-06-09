@@ -26,8 +26,8 @@ public class Item{
     private double magicLS; //LS is lifesteal
     private double physicalLS; //LS is lifesteal
     private double criticalChance;
-    private int CCR; //Crowd control reduction. Integer represents a percentage.
-    private int CDR; //Cool down reduction. Integer represents a percentage.
+    private double CCR; //Crowd control reduction
+    private double CDR; //Cool down reduction
     private double mana; //Double because of Book of Thoth/Trans
     private int stacks; //Only for stackable items
     private int maxStacks; //Only for stackable items
@@ -95,7 +95,6 @@ public class Item{
         else{
             damageTypeRequired = x;
         }
-        statsUsed.add("damageTypeRequired");
     }
 
     public void setMagicalPower(double m){
@@ -173,12 +172,12 @@ public class Item{
         statsUsed.add("criticalChance");
     }
 
-    public void setCCR(int c){
+    public void setCCR(double c){
         CCR = c;
         statsUsed.add("CCR");
     }
 
-    public void setCDR(int c){
+    public void setCDR(double c){
         CDR = c;
         statsUsed.add("CDR");
     }
@@ -269,17 +268,20 @@ public class Item{
         return criticalChance;
     }
 
-    public int getCCR(){
+    public double getCCR(){
         return CCR;
     }
 
-    public int getCDR(){
+    public double getCDR(){
         return CDR;
     }
 
     public double getMana(){
         return mana;
     }
+
+
+    //Other getters
 
     public int getStacks(){
         return stacks;
@@ -301,7 +303,6 @@ public class Item{
         return restrictingItems;
     }
 
-
     public boolean usesStat(String s){
         int count = 0;
         while(count < statsUsed.size()){
@@ -311,5 +312,120 @@ public class Item{
             count++;
         }
         return false;
+    }
+
+    public String getStat(int x){
+        if(statsUsed.size() < x + 1){
+            return "null";
+        }
+        String stat = statsUsed.get(x);
+        if(stat.equals("magicalPower")){
+            return ("+" +roundWhole(magicalPower) + " Magical Power");
+        }
+        else if(stat.equals("physicalPower")){
+            return ("+" + roundWhole(physicalPower) + " Physical Power");
+        }
+        else if(stat.equals("physicalPen")){
+            return ("+" + physicalPen + " Physical Penetration");
+        }
+        else if(stat.equals("magicalPen")){
+            return ("+" + magicalPen + " Magical Penetration");
+        }
+        else if(stat.equals("health")){ ;
+            return ("+" + roundWhole(health) + " Health");
+        }
+        else if(stat.equals("mana")){
+            return ("+" + roundWhole(mana) + " Mana");
+        }
+        else if(stat.equals("moveSpeed")){
+            String str = String.valueOf(moveSpeed);
+            int index = str.indexOf(".");
+            str = str.substring(index + 1, str.length());
+            if (String.valueOf(str.charAt(0)).equals("0")) {
+                str = str.substring(1, str.length());
+            }
+            return ("+" + str + "% Movement Speed");
+        }
+        else if(stat.equals("physicalDef")){
+            return ("+" + physicalDef + " Physical Defense");
+        }
+        else if(stat.equals("magicalDef")){
+            return ("+" + magicalDef + " Magical Defense");
+        }
+        else if(stat.equals("hp5")){
+            return ("+" + hp5 + " HP5");
+        }
+        else if(stat.equals("mp5")){
+            return ("+" + mp5 + " MP5");
+        }
+        else if(stat.equals("attackSpeed")){
+            String str = String.valueOf(attackSpeed);
+            int index = str.indexOf(".");
+            str = str.substring(index + 1, str.length());
+            return ("+" + str + "% Attack Speed");
+        }
+        else if(stat.equals("basicAttackDamage")){
+            return ("+" + basicAttackDamage + " Basic Attack Damage");
+        }
+        else if(stat.equals("magicLS")) {
+            String str = String.valueOf(magicLS);
+            int index = str.indexOf(".");
+            str = str.substring(index + 1, str.length());
+            if (String.valueOf(str.charAt(0)).equals("0")) {
+                str = str.substring(1, str.length());
+            }
+            return ("+" + str + "% Magical Lifesteal");
+        }
+        else if(stat.equals("physicalLS")){
+            String str = String.valueOf(physicalLS);
+            int index = str.indexOf(".");
+            str = str.substring(index + 1, str.length());
+            if (String.valueOf(str.charAt(0)).equals("0")) {
+                str = str.substring(1, str.length());
+            }
+            return ("+" + str + "% Physical Lifesteal");
+        }
+        else if(stat.equals("criticalChance")){
+            String str = String.valueOf(criticalChance);
+            int index = str.indexOf(".");
+            str = str.substring(index + 1, str.length());
+            if (String.valueOf(str.charAt(0)).equals("0")) {
+                str = str.substring(1, str.length());
+            }
+            return ("+" + str + "% Critical Chance");
+        }
+        else if(stat.equals("CCR")){
+            String str = String.valueOf(CCR);
+            int index = str.indexOf(".");
+            str = str.substring(index + 1, str.length());
+            if (String.valueOf(str.charAt(0)).equals("0")) {
+                str = str.substring(1, str.length());
+            }
+            return ("+" + str + "% Crowd Control Reduction");
+        }
+        else if(stat.equals("CDR")){
+            String str = String.valueOf(CDR);
+            int index = str.indexOf(".");
+            str = str.substring(index + 1, str.length());
+            if (String.valueOf(str.charAt(0)).equals("0")) {
+                str = str.substring(1, str.length());
+            }
+            if(str.length() == 1){
+                str = str + "0";
+            }
+            return ("+" + str + "% Cooldown Reduction");
+        }
+        else{
+            return "Typo somewhere.";
+        }
+    }
+
+
+
+    private String roundWhole(double v){
+        String rounded = String.valueOf(Math.rint(v));
+        int index = rounded.indexOf(".");
+        rounded = rounded.substring(0, index);
+        return rounded;
     }
 }

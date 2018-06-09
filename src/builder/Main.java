@@ -228,6 +228,23 @@ public class Main extends Application {
         Achilles.setMP5Scale(0.39);
         godArrayList.add(Achilles);
 
+        Aphrodite.setBaseHealth(448);
+        Aphrodite.setHealthScale(68);
+        Aphrodite.setBaseMana(283);
+        Aphrodite.setManaScale(43);
+        Aphrodite.setBaseMS(355);
+        Aphrodite.setBasicAttackDamage(33);
+        Aphrodite.setBasicAttackScale(1.45);
+        Aphrodite.setAttackSpeed(0.88);
+        Aphrodite.setAttackSpeedScale(0.0095);
+        Aphrodite.setBasePhysicalDef(11.7);
+        Aphrodite.setPhysicalDefScale(2.7);
+        Aphrodite.setBaseMagicalDef(30.9);
+        Aphrodite.setMagicalDefScale(0.9);
+        Aphrodite.setHP5(6.45);
+        Aphrodite.setHP5Scale(0.45);
+        Aphrodite.setMP5(5.21);
+        Aphrodite.setMP5Scale(0.41);
         godArrayList.add(Aphrodite);
 
         godArrayList.add(AMC);
@@ -428,7 +445,7 @@ public class Main extends Application {
         Transcendance.setPhysicalPower(35);
         Transcendance.setMana(300);
         Transcendance.setMp5(6);
-        Transcendance.setCDR(10);
+        Transcendance.setCDR(0.10);
         Transcendance.setMaxStacks(50);
         Transcendance.setStacks(50);
         Transcendance.setTier(3);
@@ -480,7 +497,7 @@ public class Main extends Application {
         SoulGem.setMagicalPower(65);
         SoulGem.setHealth(150);
         SoulGem.setMagicLS(.12);
-        SoulGem.setCDR(10);
+        SoulGem.setCDR(.10);
         SoulGem.setTier(3);
         itemArrayList.add(SoulGem);
 

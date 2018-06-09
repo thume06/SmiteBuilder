@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="builder.ItemSelectController">
    <children>
@@ -62,5 +62,16 @@
             <Font size="31.0" />
          </font>
       </Label>
+      <ImageView fx:id="itemHover" fitHeight="150.0" fitWidth="200.0" layoutX="-261.0" layoutY="-203.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/itemHover.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lblItemName" layoutX="-231.0" layoutY="-197.0" text="?itemName" />
+      <Label fx:id="lblStat1" layoutX="-259.0" layoutY="-173.0" text="?stat1" />
+      <Label fx:id="lblStat2" layoutX="-256.0" layoutY="-145.0" text="?stat2" />
+      <Label fx:id="lblStat3" layoutX="-256.0" layoutY="-120.0" text="?stat3" />
+      <Label fx:id="lblStat4" layoutX="-259.0" layoutY="-103.0" text="?stat4" />
+      <Label fx:id="lblStat5" layoutX="-256.0" layoutY="-78.0" text="?stat5" />
    </children>
 </AnchorPane>

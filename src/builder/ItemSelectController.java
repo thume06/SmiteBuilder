@@ -25,12 +25,20 @@ public class ItemSelectController implements Initializable {
 
     private String damageType = "null";
 
+    private ArrayList<Label> hoverLabels = new ArrayList<>(); //contains the labels when hovering an item
     private ArrayList<Item> tempArray = new ArrayList<>(); //will contain items after filtering
     private String[][] itemTable = new String[9][11]; //columns first, then rows 0,0 is top left. rows increase down. columns increase to the right.
 
     @FXML ScrollPane itemScroll;
     @FXML GridPane itemGrid;
     @FXML Label noneFound;
+    @FXML ImageView itemHover;
+    @FXML Label lblItemName;
+    @FXML Label lblStat1;
+    @FXML Label lblStat2;
+    @FXML Label lblStat3;
+    @FXML Label lblStat4;
+    @FXML Label lblStat5;
 
     public void initialize(URL url, ResourceBundle rb) {
         mainClass = Main.getInstance();
@@ -38,6 +46,20 @@ public class ItemSelectController implements Initializable {
         damageType = godScreen.getDamageType();
         itemScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         itemScroll.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color:transparent;");
+        itemHover.setImage(new Image("itemHover.png"));
+        itemHover.setDisable(true);
+        itemHover.setOpacity(0);
+        lblItemName.setOpacity(0);
+        lblStat1.setOpacity(0);
+        lblStat2.setOpacity(0);
+        lblStat3.setOpacity(0);
+        lblStat4.setOpacity(0);
+        lblStat5.setOpacity(0);
+        hoverLabels.add(lblStat1);
+        hoverLabels.add(lblStat2);
+        hoverLabels.add(lblStat3);
+        hoverLabels.add(lblStat4);
+        hoverLabels.add(lblStat5);
         InitializeItems();
         RefreshItems();
     }
@@ -214,6 +236,8 @@ public class ItemSelectController implements Initializable {
                 itemImage.setFitWidth(67);
                 itemImage.setFitHeight(67);
                 int column = columnCount;
+                int row = rowCount;
+
                 itemImage.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
@@ -227,6 +251,41 @@ public class ItemSelectController implements Initializable {
                         itemImage.setFitHeight(87);
                         hover.setVisible(true);
                         itemName.setOpacity(0);
+                        if(row == 0){
+                            itemHover.setLayoutY(itemScroll.getLayoutY() + (row * 100) + 75);
+                        }
+                        else{
+                            itemHover.setLayoutY(itemScroll.getLayoutY() + (row * 100) - 125);
+                        }
+                        if(column == 6){
+                            itemHover.setLayoutX(column * 100 -75);
+                        }
+                        else{
+                            itemHover.setLayoutX(column * 100 + 75);
+                        }
+                        itemHover.setOpacity(1);
+
+                        //This section sets all hover labels to the right text
+                        Item itemObj = mainClass.getItem(itemTable[column][row]);
+                        ArrayList<String> statsUsed = itemObj.getStatsUsed();
+                        int numStats = statsUsed.size();
+                        lblItemName.setText(item);
+                        int count = 0;
+                        while(count < numStats){
+                            hoverLabels.get(count).setText(itemObj.getStat(count));
+                            count++;
+                        }
+
+                        lblItemName.setLayoutX(itemHover.getLayoutX() + 5);
+                        lblItemName.setLayoutY(itemHover.getLayoutY() + 5);
+                        lblItemName.setOpacity(1);
+                        count = 0;
+                        while(count < numStats){
+                            hoverLabels.get(count).setLayoutX(itemHover.getLayoutX() + 5);
+                            hoverLabels.get(count).setLayoutY(itemHover.getLayoutY() + 30 + (count * 20));
+                            hoverLabels.get(count).setOpacity(1);
+                            count++;
+                        }
                     }
                 });
                 itemImage.addEventFilter(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
@@ -236,6 +295,13 @@ public class ItemSelectController implements Initializable {
                         itemImage.setFitHeight(67);
                         hover.setVisible(false);
                         itemName.setOpacity(1);
+                        itemHover.setOpacity(0);
+                        lblItemName.setOpacity(0);
+                        lblStat1.setOpacity(0);
+                        lblStat2.setOpacity(0);
+                        lblStat3.setOpacity(0);
+                        lblStat4.setOpacity(0);
+                        lblStat5.setOpacity(0);
                     }
                 });
                 itemGrid.add(itemImage, columnCount, rowCount);
