@@ -36,7 +36,8 @@ public class Item{
     //TODO Figure out a way to calculate power from trans and thoth passives that includes god mana.
 
     private ArrayList<String> statsUsed = new ArrayList<>(); //ArrayList is returned by getStatsUsed getter.
-    private ArrayList<String > restrictingItems = new ArrayList<>(); //If all of these items are built, this item can no longer be built.
+    private ArrayList<String> restrictingItems = new ArrayList<>(); //If all of these items are built, this item can no longer be built.
+    private ArrayList<String> secondayRestrictingItems = new ArrayList<>(); //Only for tier 1 items and composed of tier 2 items
 
     public void PrintInfo(){
         System.out.println(name + " stats:");
@@ -195,6 +196,10 @@ public class Item{
         restrictingItems.add(r);
     }
 
+    public void addSecondaryRestriction(String r){
+        secondayRestrictingItems.add(r);
+    }
+
     //Begin getters
     public String getName(){
         return name;
@@ -303,6 +308,10 @@ public class Item{
         return restrictingItems;
     }
 
+    public ArrayList<String> getSecondayRestrictingItems(){
+        return secondayRestrictingItems;
+    }
+
     public boolean usesStat(String s){
         int count = 0;
         while(count < statsUsed.size()){
@@ -374,6 +383,9 @@ public class Item{
             if (String.valueOf(str.charAt(0)).equals("0")) {
                 str = str.substring(1, str.length());
             }
+            if(str.length() == 1 && (str.equals("1") || str.equals("2"))){
+                str = str + "0";
+            }
             return ("+" + str + "% Magical Lifesteal");
         }
         else if(stat.equals("physicalLS")){
@@ -410,7 +422,7 @@ public class Item{
             if (String.valueOf(str.charAt(0)).equals("0")) {
                 str = str.substring(1, str.length());
             }
-            if(str.length() == 1){
+            if(str.length() == 1 && (str.equals("1") || str.equals("2"))){
                 str = str + "0";
             }
             return ("+" + str + "% Cooldown Reduction");

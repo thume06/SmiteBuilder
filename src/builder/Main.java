@@ -7,6 +7,8 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.awt.print.Book;
 import java.lang.String;
 import java.util.ArrayList;
 
@@ -117,6 +119,9 @@ public class Main extends Application {
     //Item Initializations
     //Tier 3---------------------------------------
     Item BookOfThoth = new Item("Book of Thoth");
+    Item Polynomicon = new Item("Polynomicon");
+    Item SoulReaver = new Item("Soul Reaver");
+    Item BookOfTheDead = new Item("Book of the Dead");
     Item Transcendance = new Item("Transcendence");
     Item TyphonsFang = new Item("Typhon's Fang");
     Item BancroftsTalon = new Item("Bancroft's Talon");
@@ -126,9 +131,11 @@ public class Main extends Application {
     //Tier 2---------------------------------------
     Item TalonTrinket = new Item("Talon Trinket");
     Item EnchantedTrinket = new Item("Enchanted Trinket");
+    Item BookOfSouls = new Item("Book of Souls");
 
     //Tier 1---------------------------------------
     Item TinyTrinket = new Item("Tiny Trinket");
+    Item Spellbook = new Item("Spellbook");
 
     private static Main instance;
 
@@ -441,6 +448,47 @@ public class Main extends Application {
         BookOfThoth.setTier(3);
         itemArrayList.add(BookOfThoth);
 
+        Polynomicon.setDamageType("M");
+        Polynomicon.setMagicalPower(75);
+        Polynomicon.setMana(300);
+        Polynomicon.setMagicLS(.12);
+        Polynomicon.setTier(3);
+        itemArrayList.add(Polynomicon);
+
+        SoulReaver.setDamageType("M");
+        SoulReaver.setMagicalPower(130);
+        SoulReaver.setMana(300);
+        SoulReaver.setTier(3);
+        itemArrayList.add(SoulReaver);
+
+        BookOfTheDead.setDamageType("M");
+        BookOfTheDead.setMagicalPower(100);
+        BookOfTheDead.setHealth(200);
+        BookOfTheDead.setMana(200);
+        BookOfTheDead.setTier(3);
+        itemArrayList.add(BookOfTheDead);
+
+        BookOfSouls.setDamageType("M");
+        BookOfSouls.setMagicalPower(65);
+        BookOfSouls.setMana(125);
+        BookOfSouls.addRestriction("Book of Thoth");
+        BookOfSouls.addRestriction("Polynomicon");
+        BookOfSouls.addRestriction("Soul Reaver");
+        BookOfSouls.addRestriction("Book of the Dead");
+        BookOfSouls.setTier(2);
+        itemArrayList.add(BookOfSouls);
+
+        Spellbook.setDamageType("M");
+        Spellbook.setMagicalPower(20);
+        Spellbook.setMana(75);
+        Spellbook.addRestriction("Book of Thoth");
+        Spellbook.addRestriction("Polynomicon");
+        Spellbook.addRestriction("Soul Reaver");
+        Spellbook.addRestriction("Book of the Dead");
+        Spellbook.addSecondaryRestriction("Book of Souls");
+        Spellbook.setTier(1);
+        itemArrayList.add(Spellbook);
+
         Transcendance.setDamageType("P");
         Transcendance.setPhysicalPower(35);
         Transcendance.setMana(300);
@@ -459,6 +507,8 @@ public class Main extends Application {
         TinyTrinket.addRestriction("Bancroft's Talon");
         TinyTrinket.addRestriction("Soul Gem");
         TinyTrinket.addRestriction("Pythagorem's Piece");
+        TinyTrinket.addSecondaryRestriction("Talon Trinket");
+        TinyTrinket.addSecondaryRestriction("Enchanted Trinket");
         itemArrayList.add(TinyTrinket);
 
         TalonTrinket.setDamageType("M");
@@ -505,7 +555,7 @@ public class Main extends Application {
         PythagoremsPiece.setMagicalPower(40);
         PythagoremsPiece.setHealth(200);
         PythagoremsPiece.setMagicLS(.12);
-        PythagoremsPiece.setCDR(10);
+        PythagoremsPiece.setCDR(0.10);
         PythagoremsPiece.setTier(3);
         itemArrayList.add(PythagoremsPiece);
     }

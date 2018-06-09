@@ -49,6 +49,8 @@ public class ItemSelectController implements Initializable {
         itemHover.setImage(new Image("itemHover.png"));
         itemHover.setDisable(true);
         itemHover.setOpacity(0);
+        itemHover.setFitHeight(120);
+        itemHover.setFitWidth(160);
         lblItemName.setOpacity(0);
         lblStat1.setOpacity(0);
         lblStat2.setOpacity(0);
@@ -132,6 +134,42 @@ public class ItemSelectController implements Initializable {
                 count2++;
             }
             if(restrictedCount == restrictingItems.size()){
+                tempArray.remove(count);
+                count--;
+            }
+            count++;
+        }
+
+        //Loop filters through secondary item restrictions
+        count = 0;
+        while(count < tempArray.size()){
+            //Skips T2 and T3 items
+            if(tempArray.get(count).getTier() != 1){
+                count++;
+                continue;
+            }
+            ArrayList<String> restrictingItems = tempArray.get(count).getSecondayRestrictingItems();
+
+            int count2 = 0;
+            int restrictedCount = 0;
+            while(count2 < godScreen.getBuild().size()){
+                //Skips if the build slot is empty
+                if(godScreen.getBuild().get(count2) == null){
+                    count2++;
+                    continue;
+                }
+
+                int count3 = 0;
+                while(count3 < restrictingItems.size()){
+                    if(godScreen.getBuild().get(count2).getName().equals(restrictingItems.get(count3))){
+                        restrictedCount++;
+                    }
+                    count3++;
+                }
+                count2++;
+            }
+            if(restrictedCount == restrictingItems.size()){
+                System.out.println("Removing: " + tempArray.get(count).getName());
                 tempArray.remove(count);
                 count--;
             }
@@ -255,10 +293,13 @@ public class ItemSelectController implements Initializable {
                             itemHover.setLayoutY(itemScroll.getLayoutY() + (row * 100) + 75);
                         }
                         else{
-                            itemHover.setLayoutY(itemScroll.getLayoutY() + (row * 100) - 125);
+                            itemHover.setLayoutY(itemScroll.getLayoutY() + (row * 100) - 85);
                         }
                         if(column == 6){
-                            itemHover.setLayoutX(column * 100 -75);
+                            itemHover.setLayoutX(column * 100 - 75);
+                        }
+                        else if(column == 5){
+                            itemHover.setLayoutX(column * 100 + 30);
                         }
                         else{
                             itemHover.setLayoutX(column * 100 + 75);
