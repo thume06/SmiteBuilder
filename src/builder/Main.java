@@ -123,6 +123,7 @@ public class Main extends Application {
     Item SoulReaver = new Item("Soul Reaver");
     Item BookOfTheDead = new Item("Book of the Dead");
     Item Transcendance = new Item("Transcendence");
+    Item HydrasLament = new Item("Hydra's Lament");
     Item TyphonsFang = new Item("Typhon's Fang");
     Item BancroftsTalon = new Item("Bancroft's Talon");
     Item SoulGem = new Item("Soul Gem");
@@ -132,10 +133,13 @@ public class Main extends Application {
     Item TalonTrinket = new Item("Talon Trinket");
     Item EnchantedTrinket = new Item("Enchanted Trinket");
     Item BookOfSouls = new Item("Book of Souls");
+    Item HydrasStar = new Item("Hydra's Star");
+    Item ChargedMorningstar = new Item("Charged Morningstar");
 
     //Tier 1---------------------------------------
     Item TinyTrinket = new Item("Tiny Trinket");
     Item Spellbook = new Item("Spellbook");
+    Item Morningstar = new Item("Morningstar");
 
     private static Main instance;
 
@@ -498,6 +502,36 @@ public class Main extends Application {
         Transcendance.setStacks(50);
         Transcendance.setTier(3);
         itemArrayList.add(Transcendance);
+
+        HydrasLament.setDamageType("P");
+        HydrasLament.setPhysicalPower(40);
+        HydrasLament.setCDR(.10);
+        HydrasLament.setTier(3);
+        itemArrayList.add(HydrasLament);
+
+        HydrasStar.setDamageType("P");
+        HydrasStar.setPhysicalPower(20);
+        HydrasStar.setCDR(.05);
+        HydrasStar.setTier(2);
+        HydrasStar.addRestriction("Hydra's Lament");
+        itemArrayList.add(HydrasStar);
+
+        ChargedMorningstar.setDamageType("P");
+        ChargedMorningstar.setPhysicalPower(20);
+        ChargedMorningstar.setMana(150);
+        ChargedMorningstar.setMp5(4);
+        ChargedMorningstar.setTier(2);
+        ChargedMorningstar.addRestriction("Transcendance");
+        itemArrayList.add(ChargedMorningstar);
+
+        Morningstar.setDamageType("P");
+        Morningstar.setPhysicalPower(10);
+        Morningstar.setTier(1);
+        Morningstar.addRestriction("Transcendance");
+        Morningstar.addRestriction("Hydra's Lament");
+        Morningstar.addSecondaryRestriction("Charged Morningstar");
+        Morningstar.addSecondaryRestriction("Hydra's Star");
+        itemArrayList.add(Morningstar);
 
         TinyTrinket.setDamageType("M");
         TinyTrinket.setMagicalPower(20);

@@ -169,7 +169,6 @@ public class ItemSelectController implements Initializable {
                 count2++;
             }
             if(restrictedCount == restrictingItems.size()){
-                System.out.println("Removing: " + tempArray.get(count).getName());
                 tempArray.remove(count);
                 count--;
             }
