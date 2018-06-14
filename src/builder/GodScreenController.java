@@ -328,6 +328,25 @@ public class GodScreenController implements Initializable{
         return build;
     }
 
+    public int getSelectedColumn(){
+        return selectedColumn;
+    }
+
+    public boolean buildContains(String i){
+        int buildCount = 0;
+        while(buildCount < build.size()){
+            if(build.get(buildCount) == null){
+                buildCount++;
+                continue;
+            }
+            if(build.get(buildCount).getName().equals(i)){
+                return true;
+            }
+            buildCount++;
+        }
+        return false;
+    }
+
     @FXML public void increasePressed(){
         if(level < 20) {
             level++;

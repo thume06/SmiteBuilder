@@ -24,6 +24,8 @@ public class ItemSelectController implements Initializable {
     private GodScreenController godScreen;
 
     private String damageType = "null";
+    private int selectedColumn;
+    private Item selectedItem;
 
     private ArrayList<Label> hoverLabels = new ArrayList<>(); //contains the labels when hovering an item
     private ArrayList<Item> tempArray = new ArrayList<>(); //will contain items after filtering
@@ -62,6 +64,8 @@ public class ItemSelectController implements Initializable {
         hoverLabels.add(lblStat3);
         hoverLabels.add(lblStat4);
         hoverLabels.add(lblStat5);
+        selectedColumn = godScreen.getSelectedColumn();
+        selectedItem = godScreen.getBuild().get(selectedColumn);
         InitializeItems();
         RefreshItems();
     }
@@ -69,7 +73,7 @@ public class ItemSelectController implements Initializable {
     //Adds all items to the temp ArrayList to start
     private void InitializeItems(){
         tempArray = (ArrayList<Item>)mainClass.getItemList().clone();
-        //Looop filters through damage types
+        //Loop filters through damage types
         int count = 0;
         while(count < tempArray.size()){
             if(damageType.equals("M")){
@@ -89,88 +93,20 @@ public class ItemSelectController implements Initializable {
 
         //Loop filters through items that are already selected
         count = 0;
-        while(count < tempArray.size()){
+        while(count < tempArray.size() && tempArray.size() > 0){
             int count2 = 0;
             while(count2 < godScreen.getBuild().size()){
+                //Skips empty build slots
                 if(godScreen.getBuild().get(count2) == null){
                     count2++;
                     continue;
                 }
+                //Removes item if already built
                 if(tempArray.get(count).getName().equals(godScreen.getBuild().get(count2).getName())){
                     tempArray.remove(count);
                     count--;
                 }
                 count2++;
-            }
-            count++;
-        }
-
-        //Loop filters through item restrictions
-        count = 0;
-        while(count < tempArray.size()){
-            //Skips T3 items to make it faster
-            if(tempArray.get(count).getTier() == 3){
-                count++;
-                continue;
-            }
-            ArrayList<String> restrictingItems = tempArray.get(count).getRestrictingItems();
-
-            int count2 = 0;
-            int restrictedCount = 0;
-            while(count2 < godScreen.getBuild().size()){
-                //Skips if the build slot is empty
-                if(godScreen.getBuild().get(count2) == null){
-                    count2++;
-                    continue;
-                }
-
-                int count3 = 0;
-                while(count3 < restrictingItems.size()){
-                    if(godScreen.getBuild().get(count2).getName().equals(restrictingItems.get(count3))){
-                        restrictedCount++;
-                    }
-                    count3++;
-                }
-                count2++;
-            }
-            if(restrictedCount == restrictingItems.size()){
-                tempArray.remove(count);
-                count--;
-            }
-            count++;
-        }
-
-        //Loop filters through secondary item restrictions
-        count = 0;
-        while(count < tempArray.size()){
-            //Skips T2 and T3 items
-            if(tempArray.get(count).getTier() != 1){
-                count++;
-                continue;
-            }
-            ArrayList<String> restrictingItems = tempArray.get(count).getSecondayRestrictingItems();
-
-            int count2 = 0;
-            int restrictedCount = 0;
-            while(count2 < godScreen.getBuild().size()){
-                //Skips if the build slot is empty
-                if(godScreen.getBuild().get(count2) == null){
-                    count2++;
-                    continue;
-                }
-
-                int count3 = 0;
-                while(count3 < restrictingItems.size()){
-                    if(godScreen.getBuild().get(count2).getName().equals(restrictingItems.get(count3))){
-                        restrictedCount++;
-                    }
-                    count3++;
-                }
-                count2++;
-            }
-            if(restrictedCount == restrictingItems.size()){
-                tempArray.remove(count);
-                count--;
             }
             count++;
         }
