@@ -1,12 +1,14 @@
 package builder;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -26,8 +28,11 @@ public class ItemSelectController implements Initializable {
     private String damageType = "null";
     private int selectedColumn;
     private Item selectedItem;
+    private String tierSelection = "Any";
+    private String searchInput = "";
 
     private ArrayList<Label> hoverLabels = new ArrayList<>(); //contains the labels when hovering an item
+    private ArrayList<Item> initialItems = new ArrayList<>(); //contains all items that are first added to the screen
     private ArrayList<Item> tempArray = new ArrayList<>(); //will contain items after filtering
     private String[][] itemTable = new String[9][11]; //columns first, then rows 0,0 is top left. rows increase down. columns increase to the right.
 
@@ -41,6 +46,12 @@ public class ItemSelectController implements Initializable {
     @FXML Label lblStat3;
     @FXML Label lblStat4;
     @FXML Label lblStat5;
+    @FXML TextField searchField;
+    @FXML ChoiceBox tierFilter;
+    @FXML MenuButton statFilter;
+
+    private CheckBox chkPower = new CheckBox("Power");
+    private CheckBox chkMana = new CheckBox("Mana");
 
     public void initialize(URL url, ResourceBundle rb) {
         mainClass = Main.getInstance();
@@ -66,25 +77,56 @@ public class ItemSelectController implements Initializable {
         hoverLabels.add(lblStat5);
         selectedColumn = godScreen.getSelectedColumn();
         selectedItem = godScreen.getBuild().get(selectedColumn);
+        searchField.textProperty().addListener((observable, oldText, newText)->{
+            searchInput = newText;
+            SearchUpdated();
+        });
+        tierFilter.setItems(FXCollections.observableArrayList(
+                "Any", "Tier 1", "Tier 2", "Tier 3"));
+        tierFilter.setValue("Any");
+        tierFilter.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+                tierSelection = String.valueOf(tierFilter.getItems().get((Integer) number2));
+                SearchUpdated();
+            }
+        });
+        chkPower.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                SearchUpdated();
+            }
+        });
+        CustomMenuItem mPower = new CustomMenuItem(chkPower);
+        chkMana.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                SearchUpdated();
+            }
+        });
+        CustomMenuItem mMana = new CustomMenuItem(chkMana);
+        mPower.setHideOnClick(false);
+        mMana.setHideOnClick(false);
+        statFilter.getItems().setAll(mPower, mMana);
         InitializeItems();
         RefreshItems();
     }
 
     //Adds all items to the temp ArrayList to start
     private void InitializeItems(){
-        tempArray = (ArrayList<Item>)mainClass.getItemList().clone();
+        initialItems = (ArrayList<Item>)mainClass.getItemList().clone();
         //Loop filters through damage types
         int count = 0;
-        while(count < tempArray.size()){
+        while(count < initialItems.size()){
             if(damageType.equals("M")){
-                if(tempArray.get(count).getDamageType().equals("P")){
-                    tempArray.remove(count);
+                if(initialItems.get(count).getDamageType().equals("P")){
+                    initialItems.remove(count);
                     count--;
                 }
             }
             else{
-                if(tempArray.get(count).getDamageType().equals("M")){
-                    tempArray.remove(count);
+                if(initialItems.get(count).getDamageType().equals("M")){
+                    initialItems.remove(count);
                     count--;
                 }
             }
@@ -93,19 +135,19 @@ public class ItemSelectController implements Initializable {
 
         //Loop filters through items that are already selected or are not allowed to be built because of other built items
         count = 0;
-        while(count < tempArray.size() && tempArray.size() > 0){
-            if(godScreen.buildContains(tempArray.get(count).getName())) {
-                tempArray.remove(count);
+        while(count < initialItems.size() && initialItems.size() > 0){
+            if(godScreen.buildContains(initialItems.get(count).getName())) {
+                initialItems.remove(count);
                 count--;
             }
-            else if(!godScreen.checkBuildable(tempArray.get(count).getName())){
-                tempArray.remove(count);
+            else if(!godScreen.checkBuildable(initialItems.get(count).getName())){
+                initialItems.remove(count);
                 count--;
             }
             count++;
         }
         //Finally the items are sorted alphabetically
-        Collections.sort(tempArray, new Comparator<Item>() {
+        Collections.sort(initialItems, new Comparator<Item>() {
             @Override
             public int compare(Item i1, Item i2) {
                 String s1 = i1.getName();
@@ -113,6 +155,8 @@ public class ItemSelectController implements Initializable {
                 return s1.compareToIgnoreCase(s2);
             }
         });
+        //Items are copied to tempArray
+        tempArray = (ArrayList<Item>)initialItems.clone();
     }
 
     //Adds all items from the tempArray to the screen
@@ -289,5 +333,80 @@ public class ItemSelectController implements Initializable {
         godScreen.itemSelected(n);
         Stage stage = (Stage) itemScroll.getScene().getWindow();
         stage.close();
+    }
+
+    private void SearchUpdated(){
+        int columnCount = 0;
+        while(columnCount < 9){
+            int rowCount = 0;
+            while(rowCount < 11){
+                itemTable[columnCount][rowCount] = null;
+                rowCount++;
+            }
+            columnCount++;
+        }
+
+        tempArray = (ArrayList<Item>)initialItems.clone();
+
+        //Removes items that do not contain the characters in the search box
+        String search = searchField.getText().toLowerCase();
+        int count = 0;
+        while(count < tempArray.size()){
+            if(!tempArray.get(count).getName().toLowerCase().contains(search)){
+                tempArray.remove(count);
+                count--;
+            }
+            count++;
+        }
+
+        //Removes items that do not match the tier selection
+        if(!tierSelection.equals("Any")) {
+            int tier;
+            if(tierSelection.equals("Tier 1")){
+                tier =1;
+            }
+            else if(tierSelection.equals("Tier 2")){
+                tier = 2;
+            }
+            else{
+                tier = 3;
+            }
+            count = 0;
+            while (count < tempArray.size()) {
+                if(tempArray.get(count).getTier() != tier){
+                    tempArray.remove(count);
+                    count--;
+                }
+                count++;
+            }
+        }
+
+        //Removes items that do not match the stat selections
+        if(chkPower.isSelected()){
+            count = 0;
+            while(count < tempArray.size()){
+                boolean power = false;
+                if(tempArray.get(count).getStatsUsed().contains("physicalPower") ||
+                        tempArray.get(count).getStatsUsed().contains("magicalPower")){
+                    power = true;
+                }
+                if(!power){
+                    tempArray.remove(count);
+                    count--;
+                }
+                count++;
+            }
+        }
+        if(chkMana.isSelected()){
+            count = 0;
+            while(count < tempArray.size()){
+                if(!tempArray.get(count).getStatsUsed().contains("mana")){
+                    tempArray.remove(count);
+                    count--;
+                }
+                count++;
+            }
+        }
+        RefreshItems();
     }
 }
