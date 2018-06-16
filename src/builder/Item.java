@@ -37,7 +37,7 @@ public class Item{
 
     private ArrayList<String> statsUsed = new ArrayList<>(); //ArrayList is returned by getStatsUsed getter.
     private ArrayList<String> restrictingItems = new ArrayList<>(); //If all of these items are built, this item can no longer be built.
-    private ArrayList<String> secondayRestrictingItems = new ArrayList<>(); //Only for tier 1 items and composed of tier 2 items
+    private ArrayList<String> secondaryRestrictingItems = new ArrayList<>(); //Only for tier 1 items and composed of tier 2 items
 
     public void PrintInfo(){
         System.out.println(name + " stats:");
@@ -197,7 +197,7 @@ public class Item{
     }
 
     public void addSecondaryRestriction(String r){
-        secondayRestrictingItems.add(r);
+        secondaryRestrictingItems.add(r);
     }
 
     //Begin getters
@@ -308,8 +308,8 @@ public class Item{
         return restrictingItems;
     }
 
-    public ArrayList<String> getSecondayRestrictingItems(){
-        return secondayRestrictingItems;
+    public ArrayList<String> getSecondaryRestrictingItems(){
+        return secondaryRestrictingItems;
     }
 
     public boolean usesStat(String s){

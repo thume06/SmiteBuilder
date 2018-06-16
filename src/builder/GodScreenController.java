@@ -37,7 +37,8 @@ public class GodScreenController implements Initializable{
 
     private ArrayList<Item> build = new ArrayList<>();
 
-    private int selectedColumn = 99; //99 is default value if nothing is selected
+    private int selectedColumn; // Initialized to 99
+    private Item selectedItem;
 
     private double health;
     private double HP5;
@@ -84,6 +85,7 @@ public class GodScreenController implements Initializable{
             }
             count++;
         }
+        selectedColumn = 99;
         txtLevel.setText("1");
         txtHealth.setText(round(god.getHealth()));
         health = god.getHealth();
@@ -203,6 +205,7 @@ public class GodScreenController implements Initializable{
 
     public void itemSelected(String n) {
         int columnSave = selectedColumn;
+        selectedItem = build.get(selectedColumn);
         build.set(columnSave, mainClass.getItem(n));
         ImageView item = new ImageView(new Image(n + ".png"));
         ImageView hover = new ImageView(new Image("hover.png"));
@@ -345,6 +348,92 @@ public class GodScreenController implements Initializable{
             buildCount++;
         }
         return false;
+    }
+
+    //Called in ItemSelectController. The input is the item name and it simply returns true or false depending on if the item is buildable.
+    //Takes into account what the current selected item is.
+    public boolean checkBuildable(String n){
+        Item item = mainClass.getItem(n);
+        //If it is a T2 item and all of the T3 items above it are built
+        if(item.getTier() == 2 && allT3sBuilt(item.getName())){
+            return false;
+        }
+        if(build.get(selectedColumn) != null && build.get(selectedColumn).getTier() == 1){
+            if(item.getTier() == 1){
+                return false;
+            }
+            if(item.getTier() == 2 && !build.get(selectedColumn).getSecondaryRestrictingItems().contains(item.getName())){
+                return false;
+            }
+            else if(item.getTier() == 3 && !build.get(selectedColumn).getRestrictingItems().contains(item.getName())){
+                return false;
+            }
+        }
+        if(build.get(selectedColumn) != null && build.get(selectedColumn).getTier() == 2 && ((item.getTier() == 1) ||
+                (!build.get(selectedColumn).getRestrictingItems().contains(item.getName())))){
+            return false;
+        }
+        if(build.get(selectedColumn) != null && build.get(selectedColumn).getTier() == 3){
+            return false;
+        }
+        //If it is a T1 item all of the T2 items above it are built
+        else if(item.getTier() == 1 && allT2sBuilt(item.getName())){
+            return false;
+        }
+        int buildCount = 0;
+        while (buildCount < build.size()) {
+            if (build.get(buildCount) == null) {
+                buildCount++;
+                continue;
+            }
+            //We only want to do this part if the selected column is NOT is the current build slot
+            if(buildCount != selectedColumn) {
+                //If this is a restricted item of the build slot, then do not include it
+                if (build.get(buildCount).getRestrictingItems().contains(n) || build.get(buildCount).getSecondaryRestrictingItems().contains(n)) {
+                    return false;
+                }
+            }
+            buildCount++;
+        }
+        return true;
+    }
+
+    //Takes in a T2 item name and tells you if all of the T3 items that branch from it are built. Used in checkBuildable
+    public boolean allT3sBuilt(String i){
+        int count = 0;
+        int t3sBuilt = 0;
+        Item item = mainClass.getItem(i);
+        while(count < item.getRestrictingItems().size()){
+            if(buildContains(item.getRestrictingItems().get(count))){
+                t3sBuilt++;
+            }
+            count++;
+        }
+        if(t3sBuilt == item.getRestrictingItems().size()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    //Takes in a T1 item name and tells you if all of the T2 items that branch from it are built. Used in checkBuildable
+    public boolean allT2sBuilt(String i){
+        int count = 0;
+        int t2sBuilt = 0;
+        Item item = mainClass.getItem(i);
+        while(count < item.getSecondaryRestrictingItems().size()){
+            if(buildContains(item.getSecondaryRestrictingItems().get(count)) || allT3sBuilt(item.getSecondaryRestrictingItems().get(count))){
+                t2sBuilt++;
+            }
+            count++;
+        }
+        if(t2sBuilt == item.getSecondaryRestrictingItems().size()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     @FXML public void increasePressed(){

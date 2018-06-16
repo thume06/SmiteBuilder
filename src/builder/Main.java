@@ -122,7 +122,7 @@ public class Main extends Application {
     Item Polynomicon = new Item("Polynomicon");
     Item SoulReaver = new Item("Soul Reaver");
     Item BookOfTheDead = new Item("Book of the Dead");
-    Item Transcendance = new Item("Transcendence");
+    Item Transcendence = new Item("Transcendence");
     Item HydrasLament = new Item("Hydra's Lament");
     Item TyphonsFang = new Item("Typhon's Fang");
     Item BancroftsTalon = new Item("Bancroft's Talon");
@@ -493,15 +493,15 @@ public class Main extends Application {
         Spellbook.setTier(1);
         itemArrayList.add(Spellbook);
 
-        Transcendance.setDamageType("P");
-        Transcendance.setPhysicalPower(35);
-        Transcendance.setMana(300);
-        Transcendance.setMp5(6);
-        Transcendance.setCDR(0.10);
-        Transcendance.setMaxStacks(50);
-        Transcendance.setStacks(50);
-        Transcendance.setTier(3);
-        itemArrayList.add(Transcendance);
+        Transcendence.setDamageType("P");
+        Transcendence.setPhysicalPower(35);
+        Transcendence.setMana(300);
+        Transcendence.setMp5(6);
+        Transcendence.setCDR(0.10);
+        Transcendence.setMaxStacks(50);
+        Transcendence.setStacks(50);
+        Transcendence.setTier(3);
+        itemArrayList.add(Transcendence);
 
         HydrasLament.setDamageType("P");
         HydrasLament.setPhysicalPower(40);
@@ -521,13 +521,13 @@ public class Main extends Application {
         ChargedMorningstar.setMana(150);
         ChargedMorningstar.setMp5(4);
         ChargedMorningstar.setTier(2);
-        ChargedMorningstar.addRestriction("Transcendance");
+        ChargedMorningstar.addRestriction("Transcendence");
         itemArrayList.add(ChargedMorningstar);
 
         Morningstar.setDamageType("P");
         Morningstar.setPhysicalPower(10);
         Morningstar.setTier(1);
-        Morningstar.addRestriction("Transcendance");
+        Morningstar.addRestriction("Transcendence");
         Morningstar.addRestriction("Hydra's Lament");
         Morningstar.addSecondaryRestriction("Charged Morningstar");
         Morningstar.addSecondaryRestriction("Hydra's Star");

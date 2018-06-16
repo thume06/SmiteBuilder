@@ -91,26 +91,19 @@ public class ItemSelectController implements Initializable {
             count++;
         }
 
-        //Loop filters through items that are already selected
+        //Loop filters through items that are already selected or are not allowed to be built because of other built items
         count = 0;
         while(count < tempArray.size() && tempArray.size() > 0){
-            int count2 = 0;
-            while(count2 < godScreen.getBuild().size()){
-                //Skips empty build slots
-                if(godScreen.getBuild().get(count2) == null){
-                    count2++;
-                    continue;
-                }
-                //Removes item if already built
-                if(tempArray.get(count).getName().equals(godScreen.getBuild().get(count2).getName())){
-                    tempArray.remove(count);
-                    count--;
-                }
-                count2++;
+            if(godScreen.buildContains(tempArray.get(count).getName())) {
+                tempArray.remove(count);
+                count--;
+            }
+            else if(!godScreen.checkBuildable(tempArray.get(count).getName())){
+                tempArray.remove(count);
+                count--;
             }
             count++;
         }
-
         //Finally the items are sorted alphabetically
         Collections.sort(tempArray, new Comparator<Item>() {
             @Override
