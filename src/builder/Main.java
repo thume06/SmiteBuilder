@@ -132,6 +132,10 @@ public class Main extends Application {
     Item WitchBlade = new Item("Witchblade");
     Item RelicDagger = new Item("Relic Dagger");
     Item ToxicBlade = new Item("Toxic Blade");
+    Item WarriorTabi = new Item("Warrior Tabi");
+    Item NinjaTabi = new Item("Ninja Tabi");
+    Item ReinforcedGreaves = new Item("Reinforced Greaves");
+    Item TalariaBoots = new Item("Talaria Boots");
 
     //Tier 2---------------------------------------
     Item TalonTrinket = new Item("Talon Trinket");
@@ -140,12 +144,14 @@ public class Main extends Application {
     Item HydrasStar = new Item("Hydra's Star");
     Item ChargedMorningstar = new Item("Charged Morningstar");
     Item AdventurersBlade = new Item("Adventurer's Blade");
+    Item CombatBoots = new Item("Combat Boots");
 
     //Tier 1---------------------------------------
     Item TinyTrinket = new Item("Tiny Trinket");
     Item Spellbook = new Item("Spellbook");
     Item Morningstar = new Item("Morningstar");
     Item AncientBlade = new Item("Ancient Blade");
+    Item Boots = new Item("Boots");
 
     private static Main instance;
 
@@ -649,6 +655,54 @@ public class Main extends Application {
         AncientBlade.addSecondaryRestriction("Adventurer's Blade");
         itemArrayList.add(AncientBlade);
 
+        Boots.setDamageType("P");
+        Boots.setMS(0.06);
+        Boots.setTier(1);
+        Boots.addRestriction("Warrior Tabi");
+        Boots.addRestriction("Ninja Tabi");
+        Boots.addRestriction("Reinforced Greaves");
+        Boots.addRestriction("Talaria Boots");
+        Boots.addSecondaryRestriction("Combat Boots");
+        itemArrayList.add(Boots);
+
+        CombatBoots.setDamageType("P");
+        CombatBoots.setPhysicalPower(10);
+        CombatBoots.setMS(0.12);
+        CombatBoots.setTier(2);
+        CombatBoots.addRestriction("Warrior Tabi");
+        CombatBoots.addRestriction("Ninja Tabi");
+        CombatBoots.addRestriction("Reinforced Greaves");
+        CombatBoots.addRestriction("Talaria Boots");
+        itemArrayList.add(CombatBoots);
+
+        WarriorTabi.setDamageType("P");
+        WarriorTabi.setPhysicalPower(40);
+        WarriorTabi.setMS(0.18);
+        WarriorTabi.setTier(3);
+        itemArrayList.add(WarriorTabi);
+
+        NinjaTabi.setDamageType("P");
+        NinjaTabi.setPhysicalPower(20);
+        NinjaTabi.setMana(100);
+        NinjaTabi.setAttackSpeed(0.20);
+        NinjaTabi.setMS(0.18);
+        NinjaTabi.setTier(3);
+        itemArrayList.add(NinjaTabi);
+
+        ReinforcedGreaves.setDamageType("P");
+        ReinforcedGreaves.setPhysicalPower(10);
+        ReinforcedGreaves.setHealth(75);
+        ReinforcedGreaves.setCCR(0.20);
+        ReinforcedGreaves.setMS(0.18);
+        ReinforcedGreaves.setTier(3);
+        itemArrayList.add(ReinforcedGreaves);
+
+        TalariaBoots.setDamageType("P");
+        TalariaBoots.setPhysicalPower(10);
+        TalariaBoots.setMp5(15);
+        TalariaBoots.setMS(0.25);
+        TalariaBoots.setTier(3);
+        itemArrayList.add(TalariaBoots);
     }
 
     @Override

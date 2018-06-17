@@ -146,6 +146,26 @@ public class ItemSelectController implements Initializable {
             }
             count++;
         }
+        //Checks if boots are built and, if so, removes all other boots from the build
+        if(damageType.equals("P") &&
+                godScreen.buildContains("Warrior Tabi") ||
+                godScreen.buildContains("Ninja Tabi") ||
+                godScreen.buildContains("Reinforced Greaves") ||
+                godScreen.buildContains("Talaria Boots")){
+            count = 0;
+            while(count < initialItems.size() && initialItems.size() > 0){
+                if(initialItems.get(count).getName().equals("Warrior Tabi") ||
+                        initialItems.get(count).getName().equals("Ninja Tabi") ||
+                        initialItems.get(count).getName().equals("Reinforced Greaves") ||
+                        initialItems.get(count).getName().equals("Talaria Boots") ||
+                        initialItems.get(count).getName().equals("Boots") ||
+                        initialItems.get(count).getName().equals("Combat Boots")){
+                    initialItems.remove(count);
+                    count--;
+                }
+                count++;
+            }
+        }
         //Finally the items are sorted alphabetically
         Collections.sort(initialItems, new Comparator<Item>() {
             @Override
