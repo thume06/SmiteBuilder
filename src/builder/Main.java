@@ -128,6 +128,10 @@ public class Main extends Application {
     Item BancroftsTalon = new Item("Bancroft's Talon");
     Item SoulGem = new Item("Soul Gem");
     Item PythagoremsPiece = new Item("Pythagorem's Piece");
+    Item WingedBlade = new Item("Winged Blade");
+    Item WitchBlade = new Item("Witchblade");
+    Item RelicDagger = new Item("Relic Dagger");
+    Item ToxicBlade = new Item("Toxic Blade");
 
     //Tier 2---------------------------------------
     Item TalonTrinket = new Item("Talon Trinket");
@@ -135,11 +139,13 @@ public class Main extends Application {
     Item BookOfSouls = new Item("Book of Souls");
     Item HydrasStar = new Item("Hydra's Star");
     Item ChargedMorningstar = new Item("Charged Morningstar");
+    Item AdventurersBlade = new Item("Adventurer's Blade");
 
     //Tier 1---------------------------------------
     Item TinyTrinket = new Item("Tiny Trinket");
     Item Spellbook = new Item("Spellbook");
     Item Morningstar = new Item("Morningstar");
+    Item AncientBlade = new Item("Ancient Blade");
 
     private static Main instance;
 
@@ -592,6 +598,57 @@ public class Main extends Application {
         PythagoremsPiece.setCDR(0.10);
         PythagoremsPiece.setTier(3);
         itemArrayList.add(PythagoremsPiece);
+
+        WingedBlade.setDamageType("X");
+        WingedBlade.setHealth(300);
+        WingedBlade.setCCR(.20);
+        WingedBlade.setMS(.10);
+        WingedBlade.setTier(3);
+        itemArrayList.add(WingedBlade);
+
+        WitchBlade.setDamageType("X");
+        WitchBlade.setHealth(200);
+        WitchBlade.setCDR(0.10);
+        WitchBlade.setAttackSpeed(0.20);
+        WitchBlade.setMS(0.10);
+        WitchBlade.setTier(3);
+        itemArrayList.add(WitchBlade);
+
+        RelicDagger.setDamageType("X");
+        RelicDagger.setHealth(300);
+        RelicDagger.setCDR(0.10);
+        RelicDagger.setMS(0.10);
+        RelicDagger.setTier(3);
+        itemArrayList.add(RelicDagger);
+
+        ToxicBlade.setDamageType("X");
+        ToxicBlade.setHealth(100);
+        ToxicBlade.setPen(15);
+        ToxicBlade.setAttackSpeed(0.20);
+        ToxicBlade.setMS(0.10);
+        itemArrayList.add(ToxicBlade);
+
+        AdventurersBlade.setDamageType("X");
+        AdventurersBlade.setHealth(100);
+        AdventurersBlade.setMS(0.10);
+        AdventurersBlade.setTier(2);
+        AdventurersBlade.addRestriction("Winged Blade");
+        AdventurersBlade.addRestriction("Witchblade");
+        AdventurersBlade.addRestriction("Relic Dagger");
+        AdventurersBlade.addRestriction("Toxic Blade");
+        itemArrayList.add(AdventurersBlade);
+
+        AncientBlade.setDamageType("X");
+        AncientBlade.setHealth(50);
+        AncientBlade.setMS(0.05);
+        AncientBlade.setTier(1);
+        AncientBlade.addRestriction("Winged Blade");
+        AncientBlade.addRestriction("Witchblade");
+        AncientBlade.addRestriction("Relic Dagger");
+        AncientBlade.addRestriction("Toxic Blade");
+        AncientBlade.addSecondaryRestriction("Adventurer's Blade");
+        itemArrayList.add(AncientBlade);
+
     }
 
     @Override

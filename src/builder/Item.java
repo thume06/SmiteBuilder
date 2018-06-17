@@ -15,6 +15,7 @@ public class Item{
     private double physicalPower;
     private int physicalPen;
     private int magicalPen;
+    private int pen;
     private int health; //TODO Change to double if a passive that results in decimal health is discovered.
     private double moveSpeed; //Double since movement increases by percentages.
     private int physicalDef;
@@ -116,6 +117,11 @@ public class Item{
     public void setMagicalPen(int p){
         magicalPen = p;
         statsUsed.add("magicalPen");
+    }
+
+    public void setPen(int p){
+        pen = p;
+        statsUsed.add("pen");
     }
 
     public void setHealth(int h){
@@ -229,6 +235,10 @@ public class Item{
         return magicalPen;
     }
 
+    public int getPen(){
+        return pen;
+    }
+
     public  int getHealth(){
         return health;
     }
@@ -340,6 +350,9 @@ public class Item{
         else if(stat.equals("magicalPen")){
             return ("+" + magicalPen + " Magical Penetration");
         }
+        else if(stat.equals("pen")){
+            return("+" + pen + " Penetration");
+        }
         else if(stat.equals("health")){ ;
             return ("+" + roundWhole(health) + " Health");
         }
@@ -352,6 +365,9 @@ public class Item{
             str = str.substring(index + 1, str.length());
             if (String.valueOf(str.charAt(0)).equals("0")) {
                 str = str.substring(1, str.length());
+            }
+            if(str.length() == 1 && (str.equals("1") || str.equals("2"))){
+                str = str + "0";
             }
             return ("+" + str + "% Movement Speed");
         }
@@ -371,6 +387,12 @@ public class Item{
             String str = String.valueOf(attackSpeed);
             int index = str.indexOf(".");
             str = str.substring(index + 1, str.length());
+            if (String.valueOf(str.charAt(0)).equals("0")) {
+                str = str.substring(1, str.length());
+            }
+            if(str.length() == 1 && (str.equals("1") || str.equals("2"))){
+                str = str + "0";
+            }
             return ("+" + str + "% Attack Speed");
         }
         else if(stat.equals("basicAttackDamage")){
@@ -412,6 +434,9 @@ public class Item{
             str = str.substring(index + 1, str.length());
             if (String.valueOf(str.charAt(0)).equals("0")) {
                 str = str.substring(1, str.length());
+            }
+            if(str.length() == 1 && (str.equals("1") || str.equals("2"))){
+                str = str + "0";
             }
             return ("+" + str + "% Crowd Control Reduction");
         }
