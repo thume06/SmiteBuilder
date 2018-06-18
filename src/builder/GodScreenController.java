@@ -354,6 +354,7 @@ public class GodScreenController implements Initializable{
     //Takes into account what the current selected item is.
     public boolean checkBuildable(String n){
         Item item = mainClass.getItem(n);
+
         //If it is a T2 item and all of the T3 items above it are built
         if(item.getTier() == 2 && allT3sBuilt(item.getName())){
             return false;
@@ -376,7 +377,7 @@ public class GodScreenController implements Initializable{
         if(build.get(selectedColumn) != null && build.get(selectedColumn).getTier() == 3){
             return false;
         }
-        //If it is a T1 item all of the T2 items above it are built
+        //If it is a T1 item and all of the T2 items above it are built
         else if(item.getTier() == 1 && allT2sBuilt(item.getName())){
             return false;
         }

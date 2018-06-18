@@ -136,6 +136,10 @@ public class Main extends Application {
     Item NinjaTabi = new Item("Ninja Tabi");
     Item ReinforcedGreaves = new Item("Reinforced Greaves");
     Item TalariaBoots = new Item("Talaria Boots");
+    Item ShoesOfTheMagi = new Item("Shoes of the Magi");
+    Item ShoesOfFocus = new Item("Shoes of Focus");
+    Item ReinforcedShoes = new Item("Reinforced Shoes");
+    Item TravelersShoes = new Item("Traveler's Shoes");
 
     //Tier 2---------------------------------------
     Item TalonTrinket = new Item("Talon Trinket");
@@ -145,6 +149,7 @@ public class Main extends Application {
     Item ChargedMorningstar = new Item("Charged Morningstar");
     Item AdventurersBlade = new Item("Adventurer's Blade");
     Item CombatBoots = new Item("Combat Boots");
+    Item MagicShoes = new Item("Magic Shoes");
 
     //Tier 1---------------------------------------
     Item TinyTrinket = new Item("Tiny Trinket");
@@ -152,6 +157,7 @@ public class Main extends Application {
     Item Morningstar = new Item("Morningstar");
     Item AncientBlade = new Item("Ancient Blade");
     Item Boots = new Item("Boots");
+    Item Shoes = new Item("Shoes");
 
     private static Main instance;
 
@@ -632,6 +638,7 @@ public class Main extends Application {
         ToxicBlade.setPen(15);
         ToxicBlade.setAttackSpeed(0.20);
         ToxicBlade.setMS(0.10);
+        ToxicBlade.setTier(3);
         itemArrayList.add(ToxicBlade);
 
         AdventurersBlade.setDamageType("X");
@@ -703,6 +710,56 @@ public class Main extends Application {
         TalariaBoots.setMS(0.25);
         TalariaBoots.setTier(3);
         itemArrayList.add(TalariaBoots);
+
+        ShoesOfTheMagi.setDamageType("M");
+        ShoesOfTheMagi.setMagicalPower(55);
+        ShoesOfTheMagi.setMagicalPen(10);
+        ShoesOfTheMagi.setMS(0.18);
+        ShoesOfTheMagi.setTier(3);
+        itemArrayList.add(ShoesOfTheMagi);
+
+        ShoesOfFocus.setDamageType("M");
+        ShoesOfFocus.setMagicalPower(55);
+        ShoesOfFocus.setMana(250);
+        ShoesOfFocus.setCDR(0.10);
+        ShoesOfFocus.setMS(0.18);
+        ShoesOfFocus.setTier(3);
+        itemArrayList.add(ShoesOfFocus);
+
+        ReinforcedShoes.setDamageType("M");
+        ReinforcedShoes.setMagicalPower(20);
+        ReinforcedShoes.setHealth(75);
+        ReinforcedShoes.setCCR(0.20);
+        ReinforcedShoes.setMS(0.18);
+        ReinforcedShoes.setTier(3);
+        itemArrayList.add(ReinforcedShoes);
+
+        TravelersShoes.setDamageType("M");
+        TravelersShoes.setMagicalPower(20);
+        TravelersShoes.setMp5(15);
+        TravelersShoes.setMS(0.25);
+        TravelersShoes.setTier(3);
+        itemArrayList.add(TravelersShoes);
+
+        MagicShoes.setDamageType("M");
+        MagicShoes.setMagicalPower(20);
+        MagicShoes.setMS(0.12);
+        MagicShoes.setTier(2);
+        MagicShoes.addRestriction("Shoes of the Magi");
+        MagicShoes.addRestriction("Shoes of Focus");
+        MagicShoes.addRestriction("Traveler's Shoes");
+        MagicShoes.addRestriction("Reinforced Shoes");
+        itemArrayList.add(MagicShoes);
+
+        Shoes.setDamageType("M");
+        Shoes.setMS(0.06);
+        Shoes.setTier(1);
+        Shoes.addRestriction("Shoes of the Magi");
+        Shoes.addRestriction("Shoes of Focus");
+        Shoes.addRestriction("Traveler's Shoes");
+        Shoes.addRestriction("Reinforced Shoes");
+        Shoes.addSecondaryRestriction("Magic Shoes");
+        itemArrayList.add(Shoes);
     }
 
     @Override

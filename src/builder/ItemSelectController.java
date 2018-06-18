@@ -166,6 +166,25 @@ public class ItemSelectController implements Initializable {
                 count++;
             }
         }
+        else if(damageType.equals("M") &&
+                godScreen.buildContains("Shoes of the Magi") ||
+                godScreen.buildContains("Shoes of Focus") ||
+                godScreen.buildContains("Reinforced Shoes") ||
+                godScreen.buildContains("Traveler's Shoes")){
+            count = 0;
+            while(count < initialItems.size() && initialItems.size() > 0){
+                if(initialItems.get(count).getName().equals("Shoes of the Magi") ||
+                        initialItems.get(count).getName().equals("Shoes of Focus") ||
+                        initialItems.get(count).getName().equals("Reinforced Shoes") ||
+                        initialItems.get(count).getName().equals("Traveler's Shoes") ||
+                        initialItems.get(count).getName().equals("Magic Shoes") ||
+                        initialItems.get(count).getName().equals("Shoes")){
+                    initialItems.remove(count);
+                    count--;
+                }
+                count++;
+            }
+        }
         //Finally the items are sorted alphabetically
         Collections.sort(initialItems, new Comparator<Item>() {
             @Override
