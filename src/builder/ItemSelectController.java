@@ -144,6 +144,12 @@ public class ItemSelectController implements Initializable {
                 initialItems.remove(count);
                 count--;
             }
+            else if((initialItems.get(count).isKatana() && godScreen.getGodClass().equals("Mage")) ||
+                    (initialItems.get(count).isKatana() && godScreen.getGodClass().equals("Hunter")) ||
+                    (initialItems.get(count).isKatana() && godScreen.getGodClass().equals("Guardian"))){
+                initialItems.remove(count);
+                count--;
+            }
             count++;
         }
         //Checks if boots are built and, if so, removes all other boots from the build
@@ -185,6 +191,7 @@ public class ItemSelectController implements Initializable {
                 count++;
             }
         }
+
         //Finally the items are sorted alphabetically
         Collections.sort(initialItems, new Comparator<Item>() {
             @Override

@@ -452,4 +452,8 @@ public class GodScreenController implements Initializable{
             updateStats();
         }
     }
+
+    public String getGodClass(){
+        return god.getType();
+    }
 }

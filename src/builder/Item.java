@@ -8,6 +8,7 @@ public class Item{
     private String name;
     public Item(String n){
         name = n;
+        isKatana = false;
     }
 
     private String damageTypeRequired; //Options will be M (magical), P(physical), and X (either is allowed).
@@ -34,6 +35,7 @@ public class Item{
     private int maxStacks; //Only for stackable items
     private int stackMana; //This is only for Book of Thoth and Trans
     private int tier;
+    private boolean isKatana;
     //TODO Figure out a way to calculate power from trans and thoth passives that includes god mana.
 
     private ArrayList<String> statsUsed = new ArrayList<>(); //ArrayList is returned by getStatsUsed getter.
@@ -206,6 +208,10 @@ public class Item{
         secondaryRestrictingItems.add(r);
     }
 
+    public void setKatana(boolean x){
+        isKatana = x;
+    }
+
     //Begin getters
     public String getName(){
         return name;
@@ -297,6 +303,10 @@ public class Item{
 
 
     //Other getters
+
+    public boolean isKatana(){
+        return isKatana;
+    }
 
     public int getStacks(){
         return stacks;

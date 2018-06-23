@@ -140,6 +140,10 @@ public class Main extends Application {
     Item ShoesOfFocus = new Item("Shoes of Focus");
     Item ReinforcedShoes = new Item("Reinforced Shoes");
     Item TravelersShoes = new Item("Traveler's Shoes");
+    Item Masamune = new Item("Masamune");
+    Item StoneCuttingSword = new Item("Stone Cutting Sword");
+    Item Heartseeker = new Item("Heartseeker");
+    Item HastenedKatana = new Item("Hastened Katana");
 
     //Tier 2---------------------------------------
     Item TalonTrinket = new Item("Talon Trinket");
@@ -150,6 +154,7 @@ public class Main extends Application {
     Item AdventurersBlade = new Item("Adventurer's Blade");
     Item CombatBoots = new Item("Combat Boots");
     Item MagicShoes = new Item("Magic Shoes");
+    Item ThousandFoldBlade = new Item("Thousand Fold Blade");
 
     //Tier 1---------------------------------------
     Item TinyTrinket = new Item("Tiny Trinket");
@@ -158,6 +163,7 @@ public class Main extends Application {
     Item AncientBlade = new Item("Ancient Blade");
     Item Boots = new Item("Boots");
     Item Shoes = new Item("Shoes");
+    Item Katana = new Item("Katana");
 
     private static Main instance;
 
@@ -760,6 +766,60 @@ public class Main extends Application {
         Shoes.addRestriction("Reinforced Shoes");
         Shoes.addSecondaryRestriction("Magic Shoes");
         itemArrayList.add(Shoes);
+
+        Katana.setDamageType("P");
+        Katana.setPhysicalPower(10);
+        Katana.setMS(0.05);
+        Katana.setTier(1);
+        Katana.addRestriction("Stone Cutting Sword");
+        Katana.addRestriction("Masamune");
+        Katana.addRestriction("Heartseeker");
+        Katana.addRestriction("Hastened Katana");
+        Katana.addSecondaryRestriction("Thousand Fold Blade");
+        Katana.setKatana(true);
+        itemArrayList.add(Katana);
+
+        ThousandFoldBlade.setDamageType("P");
+        ThousandFoldBlade.setPhysicalPower(20);
+        ThousandFoldBlade.setMS(0.08);
+        ThousandFoldBlade.setTier(2);
+        ThousandFoldBlade.addRestriction("Stone Cutting Sword");
+        ThousandFoldBlade.addRestriction("Masamune");
+        ThousandFoldBlade.addRestriction("Heartseeker");
+        ThousandFoldBlade.addRestriction("Hastened Katana");
+        ThousandFoldBlade.setKatana(true);
+        itemArrayList.add(ThousandFoldBlade);
+
+        Masamune.setDamageType("P");
+        Masamune.setPhysicalPower(50);
+        Masamune.setHealth(100);
+        Masamune.setMS(0.10);
+        Masamune.setTier(3);
+        Masamune.setKatana(true);
+        itemArrayList.add(Masamune);
+
+        StoneCuttingSword.setDamageType("P");
+        StoneCuttingSword.setPhysicalPower(50);
+        StoneCuttingSword.setMS(0.10);
+        StoneCuttingSword.setTier(3);
+        StoneCuttingSword.setKatana(true);
+        itemArrayList.add(StoneCuttingSword);
+
+        Heartseeker.setDamageType("P");
+        Heartseeker.setPhysicalPower(30);
+        Heartseeker.setPhysicalPen(10);
+        Heartseeker.setMS(0.10);
+        Heartseeker.setTier(3);
+        Heartseeker.setKatana(true);
+        itemArrayList.add(Heartseeker);
+
+        HastenedKatana.setDamageType("P");
+        HastenedKatana.setPhysicalPower(25);
+        HastenedKatana.setAttackSpeed(0.25);
+        HastenedKatana.setMS(0.10);
+        HastenedKatana.setTier(3);
+        HastenedKatana.setKatana(true);
+        itemArrayList.add(HastenedKatana);
     }
 
     @Override
